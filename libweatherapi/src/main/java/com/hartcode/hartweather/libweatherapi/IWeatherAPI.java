@@ -6,7 +6,6 @@ package com.hartcode.hartweather.libweatherapi;
  * This way we can swap in and out other API's as necessary.
  */
 public interface IWeatherAPI {
-
     Weather getWeatherByCity(int cityId);
     Weather getWeatherByZipCode(int zipCode);
 }
