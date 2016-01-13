@@ -5,4 +5,12 @@
     <string name="cityzip_search_hint">Search city or Zip</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="menu_add">Add</string>
+    <string name="title_activity_weather_detail">Current Weather</string>
+
+    <string name="default_temp">75</string>
+    <string name="default_city">Unknown</string>
+    <string name="default_weather_name">Sunny</string>
+    <string name="default_low">Low: 40</string>
+    <string name="default_high">High: 40</string>
+    <string name="default_last_update">Last Update: 2016-01-13 15:45:00</string>
 </resources>

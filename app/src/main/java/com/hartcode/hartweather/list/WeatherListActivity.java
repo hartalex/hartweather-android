@@ -2,7 +2,6 @@ package com.hartcode.hartweather.list;
 
 import android.app.*;
 import android.content.*;
-import android.net.Uri;
 import android.os.*;
 import android.support.design.widget.*;
 import android.support.v7.app.*;

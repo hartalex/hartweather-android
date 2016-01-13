@@ -57,7 +57,7 @@ public class WeatherAPI implements IWeatherAPI {
             OpenWeather ow = openWeatherCall.execute().body();
             if (ow.weather != null && ow.weather.size() > 0)
             {
-                retval = new Weather(0, ow.id,ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max);
+                retval = new Weather(0, ow.id,ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
             }
             logger.debug(ow);
         } catch (IOException e) {
@@ -76,7 +76,7 @@ public class WeatherAPI implements IWeatherAPI {
             OpenWeather ow = openWeatherCall.execute().body();
             if (ow.weather != null && ow.weather.size() > 0)
             {
-                retval = new Weather(0, ow.id,ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max);
+                retval = new Weather(0, ow.id,ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
             }
             logger.debug(ow);
         } catch (IOException e) {

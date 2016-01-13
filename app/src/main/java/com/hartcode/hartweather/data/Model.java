@@ -19,7 +19,6 @@ public class Model {
     private static final int MAX_LIST_SIZE = 10;
     private final IView view;
 
-
     /**
      * The data model for HartWeather.
      * @param view The user interface to update when the model changes.
@@ -34,6 +33,7 @@ public class Model {
         this.view = view;
         this.loadFromDB();
     }
+
 
 
     /**

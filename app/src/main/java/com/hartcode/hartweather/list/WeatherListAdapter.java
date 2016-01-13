@@ -42,4 +42,5 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
     public int getItemCount() {
         return this.model.size();
     }
+
 }
