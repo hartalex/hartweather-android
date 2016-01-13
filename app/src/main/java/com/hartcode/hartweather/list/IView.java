@@ -1,4 +1,4 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.list;
 
 import com.hartcode.hartweather.libweatherapi.*;
 

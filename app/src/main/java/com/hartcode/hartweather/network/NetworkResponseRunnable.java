@@ -1,5 +1,6 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.network;
 
+import com.hartcode.hartweather.data.Model;
 import com.hartcode.hartweather.data.WeatherRecord;
 import com.hartcode.hartweather.libweatherapi.*;
 import org.apache.logging.log4j.*;
@@ -19,7 +20,6 @@ public class NetworkResponseRunnable implements Runnable{
         this.incomingQueue = incomingQueue;
         this.model = model;
     }
-
 
     @Override
     public void run() {

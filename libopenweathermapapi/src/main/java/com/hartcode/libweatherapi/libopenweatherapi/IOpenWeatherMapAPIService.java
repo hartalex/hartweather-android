@@ -1,7 +1,7 @@
 package com.hartcode.libweatherapi.libopenweatherapi;
 
-import com.hartcode.libweatherapi.libopenweatherapi.data.OpenWeather;
-
+import com.hartcode.libweatherapi.libopenweatherapi.data.find.*;
+import com.hartcode.libweatherapi.libopenweatherapi.data.weather.*;
 import retrofit2.*;
 import retrofit2.http.*;
 
@@ -11,8 +11,11 @@ import retrofit2.http.*;
 public interface IOpenWeatherMapAPIService {
 
     @GET("data/2.5/weather")
-    Call<OpenWeather> getWeatherByZipCode(@Query("zip") int zipCode, @Query("appid") String api, @Query("units") String units);
+    Call<OpenWeather> getWeatherByLatLon(@Query("lat") float lat, @Query("lon") float lon, @Query("appid") String api, @Query("units") String units);
 
     @GET("data/2.5/weather")
     Call<OpenWeather> getWeatherByCity(@Query("id") int cityId, @Query("appid") String api, @Query("units") String units);
+
+    @GET("data/2.5/find")
+    Call<SearchData> findCityByNameOrZip(@Query("q") String question, @Query("appid") String api, @Query("units") String units,@Query("type") String type);
 }

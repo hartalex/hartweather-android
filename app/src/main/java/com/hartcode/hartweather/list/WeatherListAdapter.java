@@ -1,7 +1,10 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.list;
 
 import android.support.v7.widget.*;
 import android.view.*;
+
+import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.data.Model;
 
 /**
  *

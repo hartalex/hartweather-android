@@ -1,4 +1,4 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.list;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.hartcode.hartweather.data.WeatherRecord;
+import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.data.Model;
 import com.hartcode.hartweather.libweatherapi.Unit;
 import com.hartcode.hartweather.libweatherapi.Weather;
+import com.hartcode.hartweather.network.NetworkManager;
 
 public class WeatherListActivity extends AppCompatActivity implements IView {
 

@@ -1,4 +1,4 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.network;
 
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;
@@ -11,13 +11,13 @@ import java.util.*;
 public class NetworkRequestRunnable implements Runnable{
     private static final Logger logger = LogManager.getLogger(NetworkRequestRunnable.class);
     private boolean isCanceled = false;
-    private final Queue<Integer> outgoingQueue;
+    private final Queue<NetworkParams> outgoingQueue;
     private final Queue<Weather> incomingQueue;
     private final String api_key;
     private Unit units = Unit.Fahrenheit;
     private IWeatherAPI weatherapi;
 
-    public NetworkRequestRunnable(Queue<Integer> outgoingQueue, Queue<Weather> incomingQueue, String api_key, Unit units)
+    public NetworkRequestRunnable(Queue<NetworkParams> outgoingQueue, Queue<Weather> incomingQueue, String api_key, Unit units)
     {
         this.outgoingQueue = outgoingQueue;
         this.incomingQueue = incomingQueue;
@@ -37,10 +37,21 @@ public class NetworkRequestRunnable implements Runnable{
         while(!this.isCanceled && !Thread.currentThread().isInterrupted())
         {
             // grab but don't remove an item from the queue.
-            Integer cityId = this.outgoingQueue.peek();
-            if (cityId != null)
+            NetworkParams networkParams = this.outgoingQueue.peek();
+            if (networkParams != null)
             {
-               Weather weather = this.weatherapi.getWeatherByCity(cityId);
+               Weather weather = null;
+                if (networkParams.cityId > 0)
+                {
+                    weather = this.weatherapi.getWeatherByCity(networkParams.cityId);
+                }else if (networkParams.lat != Float.MIN_VALUE)
+                {
+                    weather = this.weatherapi.getWeatherByLatLon(networkParams.lat, networkParams.lon);
+                }else
+                {
+                    weather = this.weatherapi.findCityByNameOrZip(networkParams.cityName);
+                }
+
                if (weather != null)
                {
                    this.incomingQueue.add(weather);

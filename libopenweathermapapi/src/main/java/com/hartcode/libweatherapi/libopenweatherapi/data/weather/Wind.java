@@ -1,4 +1,4 @@
-package com.hartcode.libweatherapi.libopenweatherapi.data;
+package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
 
 /**
  *
