@@ -44,7 +44,6 @@ public class WeatherAPI implements IWeatherAPI {
                 this.units = "imperial";
                 break;
         }
-        logger.debug("WeatherAPI class created");
     }
 
 

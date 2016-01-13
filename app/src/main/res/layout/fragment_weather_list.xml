@@ -9,9 +9,17 @@
     tools:context="com.hartcode.hartweather.WeatherListActivityFragment"
     tools:showIn="@layout/activity_weather_list">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view"
+        android:drawSelectorOnTop="false"
+        android:dividerHeight="0dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:scrollbars="none"
+        android:divider="@android:color/transparent">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

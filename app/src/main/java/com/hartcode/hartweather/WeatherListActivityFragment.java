@@ -1,22 +1,35 @@
 package com.hartcode.hartweather;
 
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.*;
+import android.os.*;
+import android.support.v7.widget.*;
+import android.view.*;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class WeatherListActivityFragment extends Fragment {
 
-    public WeatherListActivityFragment() {
+    private RecyclerView recyclerView = null;
+    private Model model;
+    private WeatherListAdapter weatherListAdapter;
+
+    public void setData(Model model) {
+        this.model = model;
+        this.weatherListAdapter.setModel(this.model);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_weather_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_weather_list, container, false);
+
+        this.weatherListAdapter = new WeatherListAdapter(this.model);
+
+        this.recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.recyclerView.setAdapter(weatherListAdapter);
+
+        return v;
     }
 }

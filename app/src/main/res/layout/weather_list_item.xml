@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/weather_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtCityName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|top"
+            android:textSize="30sp" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="200sp"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical|center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imgWeather"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150sp"
+                    android:gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/txtWeatherName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textSize="50sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtWeatherTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center"
+                android:textSize="40sp" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
