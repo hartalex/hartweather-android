@@ -6,22 +6,31 @@ import java.lang.*;
  *
  */
 public class Weather {
-    public final int id;
-    public final String main;
-    public final String description;
-    public final String icon;
-    public final float temp;
-    public final int pressure;
-    public final int humidity;
-    public final float temp_min;
-    public final float temp_max;
+    public long id;
+    public int cityId;
+    public String cityName;
+    public String main;
+    public String description;
+    public String icon;
+    public float temp;
+    public int pressure;
+    public int humidity;
+    public float temp_min;
+    public float temp_max;
 
-    public Weather(int id, String main, String description, String icon, float temp, int pressure, int humidity, float temp_min, float temp_max)
+    public Weather()
+    {
+
+    }
+
+    public Weather(long id, int cityId, String cityName, String main, String description, String icon, float temp, int pressure, int humidity, float temp_min, float temp_max)
     {
         this.id = id;
+        this.cityId = cityId;
+        this.cityName = cityName;
         this.main = main;
         this.description = description;
-        this.icon = "icon" + icon;
+        this.icon = icon;
         this.temp = temp;
         this.pressure = pressure;
         this.humidity = humidity;
@@ -32,7 +41,7 @@ public class Weather {
     @Override
     public String toString()
     {
-        return "id:" + id + ", main:" + main + ", description:" + description + ", icon:" + icon + ", temp:" + temp + ", pressure:" + pressure + ", humidity:" + humidity + ", temp_min:" + temp_min + ", temp_max:" + temp_max;
+        return "id: " + id + ", cityId:" + cityId + ", cityName:" + cityName  + ", main:" + main + ", description:" + description + ", icon:" + icon + ", temp:" + temp + ", pressure:" + pressure + ", humidity:" + humidity + ", temp_min:" + temp_min + ", temp_max:" + temp_max;
 
     }
 
