@@ -1,11 +1,7 @@
 package com.hartcode.hartweather;
 
-import android.os.*;
 import com.hartcode.hartweather.libweatherapi.*;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import org.apache.logging.log4j.*;
 import java.util.*;
 
 /**
@@ -28,8 +24,8 @@ public class NetworkManager {
         this.model = model;
 
         this.networkRequestRunnable = new NetworkRequestRunnable(this.outgoingQueue, this.incomingQueue, api_key, units);
-
         this.networkResponseRunnable = new NetworkResponseRunnable(this.incomingQueue, this.model);
+
         this.networkRequestThread = new Thread(this.networkRequestRunnable);
         this.networkRequestThread.start();
 

@@ -2,11 +2,8 @@ package com.hartcode.hartweather;
 
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Queue;
+import org.apache.logging.log4j.*;
+import java.util.*;
 
 /**
  *
@@ -62,5 +59,6 @@ public class NetworkRequestRunnable implements Runnable{
 
     public void stopThread() {
         this.isCanceled = true;
+        this.outgoingQueue.clear();
     }
 }

@@ -1,14 +1,9 @@
 package com.hartcode.hartweather;
 
-import com.hartcode.hartweather.libweatherapi.IWeatherAPI;
-import com.hartcode.hartweather.libweatherapi.Unit;
-import com.hartcode.hartweather.libweatherapi.Weather;
-import com.hartcode.libweatherapi.libopenweatherapi.WeatherAPI;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Queue;
+import com.hartcode.hartweather.data.WeatherRecord;
+import com.hartcode.hartweather.libweatherapi.*;
+import org.apache.logging.log4j.*;
+import java.util.*;
 
 /**
  *
@@ -34,7 +29,8 @@ public class NetworkResponseRunnable implements Runnable{
             Weather weather = this.incomingQueue.peek();
             if (weather != null)
             {
-                this.model.update(weather);
+                WeatherRecord record = new WeatherRecord(weather);
+                this.model.addUpdate(record);
 
                 // if successful remove from the queue.
                 this.incomingQueue.remove();
@@ -50,5 +46,6 @@ public class NetworkResponseRunnable implements Runnable{
 
     public void stopThread() {
         this.isCanceled = true;
+        this.incomingQueue.clear();
     }
 }
