@@ -1,23 +1,32 @@
 package com.hartcode.hartweather.list;
 
+import android.app.*;
+import android.content.*;
+import android.net.Uri;
 import android.os.*;
 import android.support.design.widget.*;
 import android.support.v7.app.*;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
-import android.widget.*;
+import android.widget.Toast;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.network.*;
 
-public class WeatherListActivity extends AppCompatActivity implements IView, View.OnClickListener {
+import org.apache.logging.log4j.*;
 
+public class WeatherListActivity extends AppCompatActivity implements IView, View.OnClickListener {
+    private static final Logger logger = LogManager.getLogger(WeatherListActivity.class);
     private String api_key = "34b3e14b5a4abd6edcc4c2e4051a6cab";
     private Unit units = Unit.Fahrenheit;
     private NetworkManager networkManager;
     private Model model;
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +41,24 @@ public class WeatherListActivity extends AppCompatActivity implements IView, Vie
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        WeatherListActivityFragment fragment = (WeatherListActivityFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
+        WeatherListActivityFragment fragment = (WeatherListActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.setData(model);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_weather_list, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        this.searchMenuItem = menu.findItem(R.id.menu_add);
+        this.searchView = (SearchView) searchMenuItem.getActionView();
+        this.searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        this.searchView.setIconifiedByDefault(true);
         return true;
     }
 
@@ -73,30 +89,30 @@ public class WeatherListActivity extends AppCompatActivity implements IView, Vie
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         this.networkManager.stopThreads();
     }
 
     /**
      * Handles the floating action bar click
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        this.onSearchRequested();
+
+        this.logger.debug("OnSearchRequested()");
+        this.searchMenuItem.expandActionView();
     }
 }
