@@ -1,4 +1,5 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.network;
+
 
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;

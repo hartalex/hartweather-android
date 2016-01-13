@@ -1,20 +1,18 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.list;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.os.*;
+import android.support.design.widget.*;
+import android.support.v7.app.*;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
-import com.hartcode.hartweather.data.WeatherRecord;
-import com.hartcode.hartweather.libweatherapi.Unit;
-import com.hartcode.hartweather.libweatherapi.Weather;
+import com.hartcode.hartweather.*;
+import com.hartcode.hartweather.data.*;
+import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.network.*;
 
-public class WeatherListActivity extends AppCompatActivity implements IView {
+public class WeatherListActivity extends AppCompatActivity implements IView, View.OnClickListener {
 
     private String api_key = "34b3e14b5a4abd6edcc4c2e4051a6cab";
     private Unit units = Unit.Fahrenheit;
@@ -38,13 +36,7 @@ public class WeatherListActivity extends AppCompatActivity implements IView {
         fragment.setData(model);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(this);
     }
 
     @Override
@@ -97,5 +89,14 @@ public class WeatherListActivity extends AppCompatActivity implements IView {
     {
         super.onDestroy();
         this.networkManager.stopThreads();
+    }
+
+    /**
+     * Handles the floating action bar click
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        this.onSearchRequested();
     }
 }

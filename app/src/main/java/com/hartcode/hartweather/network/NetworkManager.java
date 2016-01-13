@@ -1,5 +1,6 @@
-package com.hartcode.hartweather;
+package com.hartcode.hartweather.network;
 
+import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
 import org.apache.logging.log4j.*;
 import java.util.*;
