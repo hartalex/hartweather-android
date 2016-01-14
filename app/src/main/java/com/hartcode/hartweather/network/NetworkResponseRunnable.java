@@ -32,8 +32,16 @@ public class NetworkResponseRunnable implements Runnable{
                 WeatherRecord record = new WeatherRecord(weather);
                 this.model.addUpdate(record);
 
-                // if successful remove from the queue.
-                this.incomingQueue.remove();
+                // After main task which could be intensive, check if the thread is cancelled
+                if (!this.isCanceled) {
+                    // if successful remove from the queue.
+
+                    try {
+                        this.incomingQueue.remove();
+                    } catch (NoSuchElementException nsee) {
+                        logger.warn("No Such Element removing from incoming queue.", nsee);
+                    }
+                }
             }
 
             try {
@@ -46,6 +54,5 @@ public class NetworkResponseRunnable implements Runnable{
 
     public void stopThread() {
         this.isCanceled = true;
-        this.incomingQueue.clear();
     }
 }

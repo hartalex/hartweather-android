@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".list.WeatherListActivityFragment"
+    tools:context="com.hartcode.hartweather.list.WeatherListActivityFragment"
     tools:showIn="@layout/activity_weather_list">
 
     <android.support.v7.widget.RecyclerView

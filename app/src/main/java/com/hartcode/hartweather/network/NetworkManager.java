@@ -62,6 +62,7 @@ public class NetworkManager {
         } catch (InterruptedException e) {
             logger.warn("Network Request Thread Interrupted: ", e);
         }
+        this.outgoingQueue.clear();
 
         this.networkResponseRunnable.stopThread();
         try {
@@ -69,5 +70,6 @@ public class NetworkManager {
         } catch (InterruptedException e) {
             logger.warn("Network Response Thread Interrupted: ", e);
         }
+        this.incomingQueue.clear();
     }
 }

@@ -52,12 +52,18 @@ public class NetworkRequestRunnable implements Runnable{
                     weather = this.weatherapi.findCityByNameOrZip(networkParams.cityName);
                 }
 
-               if (weather != null)
-               {
-                   this.incomingQueue.add(weather);
-               }
-                // if successful remove from the queue.
-                this.outgoingQueue.remove();
+                // After network intensive task, check if the thread is cancelled
+                if (!this.isCanceled) {
+                    if (weather != null) {
+                        this.incomingQueue.add(weather);
+                    }
+                    // if successful remove from the queue.
+                    try {
+                        this.outgoingQueue.remove();
+                    } catch (NoSuchElementException nsee) {
+                        logger.warn("No Such Element removing from outgoing queue.", nsee);
+                    }
+                }
             }
 
             try {
@@ -70,6 +76,5 @@ public class NetworkRequestRunnable implements Runnable{
 
     public void stopThread() {
         this.isCanceled = true;
-        this.outgoingQueue.clear();
-    }
+     }
 }

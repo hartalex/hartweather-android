@@ -7,9 +7,8 @@ import android.widget.*;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.libweatherapi.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.text.*;
+import java.util.*;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -55,7 +54,7 @@ public class WeatherDetailActivityFragment extends Fragment {
         this.txtHighTemp.setText("High: " + temp + (char)0x00B0);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(weather.lastUpdate*1000);
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
         this.txtLastUpdate.setText(lastUpdate);
     }
