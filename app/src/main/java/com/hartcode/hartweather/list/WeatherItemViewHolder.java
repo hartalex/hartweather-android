@@ -1,46 +1,45 @@
 package com.hartcode.hartweather.list;
 
-import android.content.Intent;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
 
-import com.hartcode.hartweather.*;
-import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.detail.*;
-import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.data.Model;
+import com.hartcode.hartweather.libweatherapi.Weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
  */
-public class WeatherItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class WeatherItemViewHolder extends RecyclerView.ViewHolder {
 
     private final View view;
     private final TextView txtCityName;
+    private final TextView txtWeatherName;
     private final TextView txtWeatherTemp;
     private final ImageView imgWeather;
     private final TextView txtLastUpdate;
-    private int weatherIndex;
 
     public WeatherItemViewHolder(View itemView, int position)
     {
         super(itemView);
         this.view = itemView;
         this.txtCityName = (TextView)this.view.findViewById(R.id.txtCityName);
+        this.txtWeatherName = (TextView)this.view.findViewById(R.id.txtWeatherName);
         this.txtWeatherTemp = (TextView)this.view.findViewById(R.id.txtWeatherTemp);
         this.imgWeather = (ImageView)this.view.findViewById(R.id.imgWeather);
         this.txtLastUpdate = (TextView)this.view.findViewById(R.id.txtLastUpdate);
-        this.view.setOnClickListener(this);
     }
 
     public void bindData(Model model, int position) {
-        this.weatherIndex = position;
         Weather weather = model.getItem(position);
         this.txtCityName.setText(weather.cityName);
-        String temp = String.valueOf((int)weather.temp);
+        this.txtWeatherName.setText(weather.main);
+        String temp = String.valueOf(weather.temp);
         this.txtWeatherTemp.setText(temp + (char)0x00B0);
         int iconResource = this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName());
         this.imgWeather.setBackgroundResource(iconResource);
@@ -49,13 +48,7 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder implements Vi
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
         this.txtLastUpdate.setText(lastUpdate);
+
     }
 
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent(this.view.getContext(), WeatherDetailActivity.class);
-        intent.putExtra("WeatherIndex", this.weatherIndex);
-        this.view.getContext().startActivity(intent);
-    }
 }

@@ -7,5 +7,6 @@ package com.hartcode.hartweather.libweatherapi;
  */
 public interface IWeatherAPI {
     Weather getWeatherByCity(int cityId);
-    Weather getWeatherByZipCode(int zipCode);
+    Weather getWeatherByLatLon(float lat, float lon);
+    Weather findCityByNameOrZip(String question);
 }

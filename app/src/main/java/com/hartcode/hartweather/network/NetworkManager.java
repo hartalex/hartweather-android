@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class NetworkManager {
     private static final Logger logger = LogManager.getLogger(NetworkManager.class);
-    private final Queue<Integer> outgoingQueue;
+    private final Queue<NetworkParams> outgoingQueue;
     private final Queue<Weather> incomingQueue;
     private final Model model;
     private final Thread networkRequestThread;
@@ -41,7 +41,17 @@ public class NetworkManager {
 
     public void addRequest(Integer cityId)
     {
-        this.outgoingQueue.add(cityId);
+        this.outgoingQueue.add(new NetworkParams(cityId));
+    }
+
+    public void addRequest(float lat, float lon)
+    {
+        this.outgoingQueue.add(new NetworkParams(lat, lon));
+    }
+
+    public void addRequest(String name)
+    {
+        this.outgoingQueue.add(new NetworkParams(name));
     }
 
     public void stopThreads()

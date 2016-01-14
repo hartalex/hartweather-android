@@ -11,6 +11,8 @@ public class WeatherRecord extends SugarRecord {
     @Unique
     public long id;
     public int cityId;
+    public float lat;
+    public float lon;
     public String cityName;
     public String main;
     public String description;
@@ -27,10 +29,12 @@ public class WeatherRecord extends SugarRecord {
 
     }
 
-    public WeatherRecord(long id, int cityId, String cityName, String main, String description, String icon, float temp, int pressure, int humidity, float temp_min, float temp_max, long lastUpdate)
+    public WeatherRecord(long id, int cityId, float lat, float lon, String cityName, String main, String description, String icon, float temp, int pressure, int humidity, float temp_min, float temp_max, long lastUpdate)
     {
         this.id = id;
         this.cityId = cityId;
+        this.lat = lat;
+        this.lon = lon;
         this.cityName = cityName;
         this.main = main;
         this.description = description;
@@ -52,6 +56,8 @@ public class WeatherRecord extends SugarRecord {
     {
         this.id = weather.id;
         this.cityId = weather.cityId;
+        this.lat = weather.lat;
+        this.lon = weather.lon;
         this.cityName = weather.cityName;
         this.main = weather.main;
         this.description = weather.description;
@@ -64,10 +70,12 @@ public class WeatherRecord extends SugarRecord {
         this.lastUpdate = weather.lastUpdate;
     }
 
-    public void updateFromWeather(WeatherRecord weather)
+    public void updateFromWeatherRecord(WeatherRecord weather)
     {
         this.id = weather.id;
         this.cityId = weather.cityId;
+        this.lat = weather.lat;
+        this.lon = weather.lon;
         this.cityName = weather.cityName;
         this.main = weather.main;
         this.description = weather.description;
@@ -82,7 +90,7 @@ public class WeatherRecord extends SugarRecord {
 
     public Weather toWeather()
     {
-        return new Weather(this.id, this.cityId,this.cityName,this.main,this.description,this.icon,this.temp, this.pressure,this.humidity, this.temp_min, this.temp_max, this.lastUpdate);
+        return new Weather(this.id, this.cityId, this.lat, this.lon, this.cityName,this.main,this.description,this.icon,this.temp, this.pressure,this.humidity, this.temp_min, this.temp_max, this.lastUpdate);
     }
 
 

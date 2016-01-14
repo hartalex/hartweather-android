@@ -1,13 +1,13 @@
-package com.hartcode.libweatherapi.libopenweatherapi.data;
+package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
 
 /**
  *
  */
-public class Snow
+public class Rain
 {
     public final int threehr;
 
-    public Snow(int threehr)
+    public Rain(int threehr)
     {
         this.threehr = threehr;
     }

@@ -10,10 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.*;
 import android.widget.Toast;
 
-import com.hartcode.hartweather.*;
-import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.libweatherapi.*;
-import com.hartcode.hartweather.network.*;
+import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.data.Model;
+import com.hartcode.hartweather.libweatherapi.Unit;
+import com.hartcode.hartweather.libweatherapi.Weather;
+import com.hartcode.hartweather.network.NetworkManager;
 
 import org.apache.logging.log4j.*;
 

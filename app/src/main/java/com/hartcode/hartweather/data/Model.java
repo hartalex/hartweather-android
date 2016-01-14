@@ -59,7 +59,7 @@ public class Model {
             int index = this.getWeatherIndex(weather);
             // replace current weather
             WeatherRecord record = this.favoriteWeatherList.get(index);
-            record.updateFromWeather(weather);
+            record.updateFromWeatherRecord(weather);
             if (okToSave)
             {
 

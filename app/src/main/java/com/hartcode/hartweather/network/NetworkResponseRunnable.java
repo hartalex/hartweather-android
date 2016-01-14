@@ -21,7 +21,6 @@ public class NetworkResponseRunnable implements Runnable{
         this.model = model;
     }
 
-
     @Override
     public void run() {
         while(!this.isCanceled && !Thread.currentThread().isInterrupted())
