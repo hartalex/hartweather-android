@@ -8,9 +8,8 @@ import com.hartcode.hartweather.R;
 import com.hartcode.hartweather.data.Model;
 import com.hartcode.hartweather.libweatherapi.Weather;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.*;
+import java.util.*;
 
 /**
  *
@@ -24,7 +23,7 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder {
     private final ImageView imgWeather;
     private final TextView txtLastUpdate;
 
-    public WeatherItemViewHolder(View itemView, int position)
+    public WeatherItemViewHolder(View itemView)
     {
         super(itemView);
         this.view = itemView;
