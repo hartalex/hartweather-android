@@ -4,11 +4,11 @@ import com.hartcode.hartweather.libweatherapi.*;
 
 import junit.framework.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.*;
+
 
 public class OpenWeatherMapWeatherAPITest extends TestCase {
-    private static final Logger logger = LogManager.getLogger(OpenWeatherMapWeatherAPITest.class);
+    private static final Logger logger = LoggerFactory.getLogger(OpenWeatherMapWeatherAPITest.class);
     private final static int CAIRNS_CITY_ID = 2172797;
 
     // Normally the api key would be pulled from a private server and not hardcoded.
@@ -24,21 +24,21 @@ public class OpenWeatherMapWeatherAPITest extends TestCase {
 
     public void testGetWeatherByCity() {
        Weather weather = api.getWeatherByCity(CAIRNS_CITY_ID);
-        logger.debug(weather);
+        logger.debug(weather.toString());
         assertNotNull(weather);
         assertTrue("Weather.temp > -20", weather.temp > -20);
     }
 
     public void testGetWeatherByLatLon() {
         Weather weather =  api.getWeatherByLatLon(43.3f, -87.99f);
-        logger.debug(weather);
+        logger.debug(weather.toString());
         assertNotNull(weather);
         assertTrue("Weather.temp > -20", weather.temp > -20);
     }
 
     public void testfindCityByNameOrZip() {
         Weather weather = api.findCityByNameOrZip("53012");
-        logger.debug(weather);
+        logger.debug(weather.toString());
         assertNotNull(weather);
     }
 

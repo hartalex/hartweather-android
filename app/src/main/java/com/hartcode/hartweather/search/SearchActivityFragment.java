@@ -22,9 +22,6 @@ public class SearchActivityFragment extends Fragment {
 
     public void setData(Model model) {
         this.model = model;
-        List<WeatherRecord> weatherRecords = new ArrayList<>();
-        weatherRecords.add(new WeatherRecord(10,1,0,0,"city","test","unknown","01d",100,100,100,0,100, 1));
-        this.model.addSearchData(weatherRecords);
         this.searchListAdapter.setModel(this.model);
     }
 

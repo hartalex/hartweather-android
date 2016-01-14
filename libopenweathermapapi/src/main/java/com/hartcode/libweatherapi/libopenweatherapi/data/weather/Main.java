@@ -6,16 +6,16 @@ package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
 public class Main
 {
     public final float temp;
-    public final int pressure;
-    public final int humidity;
+    public final float pressure;
+    public final float humidity;
     public final float temp_min;
     public final float temp_max;
-    public final int sea_level;
-    public final int grnd_level;
+    public final float sea_level;
+    public final float grnd_level;
 
-    public Main(float temp, int pressure, int humidity,
-                     float temp_min, float temp_max, int sea_level,
-                     int grnd_level)
+    public Main(float temp, float pressure, float humidity,
+                     float temp_min, float temp_max, float sea_level,
+                float grnd_level)
     {
         this.temp = temp;
         this.pressure = pressure;

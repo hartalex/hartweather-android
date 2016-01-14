@@ -1,14 +1,10 @@
 package com.hartcode.hartweather.data;
 
-import android.os.Handler;
-import android.os.Message;
-
 import com.hartcode.hartweather.data.record.*;
 import com.hartcode.hartweather.list.*;
 import com.hartcode.hartweather.libweatherapi.*;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.*;
 
 import java.util.*;
 
@@ -16,7 +12,7 @@ import java.util.*;
  *
  */
 public class Model {
-    private static final Logger logger = LogManager.getLogger(Model.class);
+    private static final Logger logger = LoggerFactory.getLogger(Model.class);
     private final List<WeatherRecord> favoriteWeatherList;
     private final List<WeatherRecord> searchWeatherList;
     private static final int INDEX_NOT_FOUND = -1;
@@ -105,6 +101,7 @@ public class Model {
     {
         this.searchWeatherList.clear();
         this.searchWeatherList.addAll(weatherRecords);
+        this.sendWeatherDataChange();
     }
     /**
      *  Checks the data model for the given weather.
@@ -122,7 +119,8 @@ public class Model {
         int i = 0;
         while(retval == INDEX_NOT_FOUND && i < this.favoriteWeatherList.size())
         {
-            if (this.favoriteWeatherList.get(i).cityId == weather.cityId)
+            WeatherRecord weatherRecord = this.favoriteWeatherList.get(i);
+            if (weatherRecord.lat == weather.lat && weatherRecord.lon == weather.lon)
             {
                 retval = i;
             }

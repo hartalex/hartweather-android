@@ -2,6 +2,8 @@ package com.hartcode.hartweather.list;
 
 import android.app.*;
 import android.content.*;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.*;
 import android.support.design.widget.*;
 import android.support.v7.app.*;
@@ -11,17 +13,15 @@ import android.view.*;
 import android.widget.Toast;
 
 import com.hartcode.hartweather.R;
-import com.hartcode.hartweather.data.Model;
-import com.hartcode.hartweather.libweatherapi.IWeatherAPI;
-import com.hartcode.hartweather.libweatherapi.Unit;
-import com.hartcode.hartweather.libweatherapi.Weather;
-import com.hartcode.hartweather.network.NetworkManager;
-import com.hartcode.libweatherapi.libopenweatherapi.OpenWeatherMapWeatherAPI;
+import com.hartcode.hartweather.data.*;
+import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.network.*;
+import com.hartcode.libweatherapi.libopenweatherapi.*;
 
-import org.apache.logging.log4j.*;
+import org.slf4j.*;
 
-public class WeatherListActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final Logger logger = LogManager.getLogger(WeatherListActivity.class);
+public class WeatherListActivity extends AppCompatActivity implements View.OnClickListener, IConnectivity {
+    private static final Logger logger = LoggerFactory.getLogger(WeatherListActivity.class);
 
     private String api_key = "34b3e14b5a4abd6edcc4c2e4051a6cab";
     private Unit units = Unit.Fahrenheit;
@@ -29,6 +29,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     private Model model;
     private SearchView searchView;
     private MenuItem searchMenuItem;
+    private ConnectivityManager connectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +43,18 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
             this.units = Unit.valueOf(temp_unit_string);
         }
 
-        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units);
-        this.networkManager = new NetworkManager(weatherapi, model);
+        this.connectivityManager =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        // Load new data for hardcoded city
-        // TODO: remove this
-        this.networkManager.addRequest(5248171);
-        this.networkManager.addRequest(2172797);
+
+        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units);
+        this.networkManager = new NetworkManager(weatherapi, model, this);
+
+
+        for (int i =0; i < this.model.weatherSize(); i++)
+        {
+            this.networkManager.addRequest(this.model.getItem(i));
+        }
 
         setContentView(R.layout.activity_weather_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -107,5 +113,13 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
 
         this.logger.debug("OnSearchRequested()");
         this.searchMenuItem.expandActionView();
+    }
+
+    @Override
+    public boolean isConnectionActive() {
+        boolean retval;
+        NetworkInfo networkInfo = this.connectivityManager.getActiveNetworkInfo();
+        retval = (networkInfo != null && networkInfo.isConnected()) ;
+        return retval;
     }
 }

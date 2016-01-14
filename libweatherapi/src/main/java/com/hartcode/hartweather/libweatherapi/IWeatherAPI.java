@@ -1,5 +1,7 @@
 package com.hartcode.hartweather.libweatherapi;
 
+import java.util.List;
+
 /**
  *
  * This interface will be the mobile apps window into the weather api.
@@ -8,6 +10,6 @@ package com.hartcode.hartweather.libweatherapi;
 public interface IWeatherAPI {
     Weather getWeatherByCity(int cityId);
     Weather getWeatherByLatLon(float lat, float lon);
-    Weather findCityByNameOrZip(String question);
+    List<Weather> findCityByNameOrZip(String question);
     void setUnits(Unit unit);
 }

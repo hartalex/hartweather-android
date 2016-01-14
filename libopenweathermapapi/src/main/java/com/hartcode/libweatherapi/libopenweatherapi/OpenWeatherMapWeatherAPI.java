@@ -4,15 +4,20 @@ import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.libweatherapi.Weather;
 import com.hartcode.libweatherapi.libopenweatherapi.data.find.*;
 import com.hartcode.libweatherapi.libopenweatherapi.data.weather.*;
-import org.apache.logging.log4j.*;
+
+import org.slf4j.*;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.*;
 
 
 
 public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
 
-    private static final Logger logger = LogManager.getLogger(OpenWeatherMapWeatherAPI.class);
+    private static final Logger logger = LoggerFactory.getLogger(OpenWeatherMapWeatherAPI.class);
     private static final String url = "http://api.openweathermap.org";
     String apiKey = null;
     IRetrofitOpenWeatherMapAPIService weatherMapAPIService = null;
@@ -64,7 +69,7 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
             {
                 retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
             }
-            logger.debug(ow);
+            logger.debug(ow.toString());
         } catch (IOException e) {
             logger.error("Error in getWeatherByCity.",e);
         }
@@ -82,7 +87,7 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
             {
                 retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
             }
-            logger.debug(ow);
+            logger.debug(ow.toString());
         } catch (IOException e) {
             logger.error("Error in getWeatherByZipCode.", e);
         }
@@ -90,18 +95,21 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
     }
 
     @Override
-    public Weather findCityByNameOrZip(String question) {
-        Weather retval = null;
+    public List<Weather> findCityByNameOrZip(String question) {
+        List<Weather> retval = null;
         try {
             Call<SearchData> openWeatherCall =
                     weatherMapAPIService.findCityByNameOrZip(question, this.apiKey, this.units, "like");
             SearchData search = openWeatherCall.execute().body();
-            logger.debug(search);
+            logger.debug(search.toString());
             if (search != null && search.message != null && search.list != null && search.list.size() > 0)
             {
-                OpenWeather ow = search.list.get(0);
-                retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
-                logger.debug(retval);
+                retval = new ArrayList<>();
+                for(int i = 0; i < search.list.size(); i++) {
+                    OpenWeather ow = search.list.get(i);
+                    retval.add(new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt));
+                }
+                logger.debug(retval.toString());
             }
 
         } catch (IOException e) {

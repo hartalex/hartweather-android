@@ -18,8 +18,8 @@ public class WeatherRecord extends SugarRecord {
     public String description;
     public String icon;
     public float temp;
-    public int pressure;
-    public int humidity;
+    public float pressure;
+    public float humidity;
     public float temp_min;
     public float temp_max;
     public long lastUpdate;
@@ -29,7 +29,7 @@ public class WeatherRecord extends SugarRecord {
 
     }
 
-    public WeatherRecord(long id, int cityId, float lat, float lon, String cityName, String main, String description, String icon, float temp, int pressure, int humidity, float temp_min, float temp_max, long lastUpdate)
+    public WeatherRecord(long id, int cityId, float lat, float lon, String cityName, String main, String description, String icon, float temp, float pressure, float humidity, float temp_min, float temp_max, long lastUpdate)
     {
         this.id = id;
         this.cityId = cityId;
