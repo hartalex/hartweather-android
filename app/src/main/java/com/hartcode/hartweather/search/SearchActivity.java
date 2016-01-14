@@ -8,9 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.data.Model;
+import com.hartcode.hartweather.libweatherapi.Weather;
+import com.hartcode.hartweather.list.IView;
+import com.hartcode.hartweather.list.WeatherListActivityFragment;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity{
 
+    private Model model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +24,11 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        this.model = new Model();
+
+        SearchActivityFragment fragment = (SearchActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment.setData(model);
     }
 
 }

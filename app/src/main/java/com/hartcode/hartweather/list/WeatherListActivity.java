@@ -12,14 +12,17 @@ import android.widget.Toast;
 
 import com.hartcode.hartweather.R;
 import com.hartcode.hartweather.data.Model;
+import com.hartcode.hartweather.libweatherapi.IWeatherAPI;
 import com.hartcode.hartweather.libweatherapi.Unit;
 import com.hartcode.hartweather.libweatherapi.Weather;
 import com.hartcode.hartweather.network.NetworkManager;
+import com.hartcode.libweatherapi.libopenweatherapi.OpenWeatherMapWeatherAPI;
 
 import org.apache.logging.log4j.*;
 
-public class WeatherListActivity extends AppCompatActivity implements IView, View.OnClickListener {
+public class WeatherListActivity extends AppCompatActivity implements View.OnClickListener {
     private static final Logger logger = LogManager.getLogger(WeatherListActivity.class);
+
     private String api_key = "34b3e14b5a4abd6edcc4c2e4051a6cab";
     private Unit units = Unit.Fahrenheit;
     private NetworkManager networkManager;
@@ -27,15 +30,25 @@ public class WeatherListActivity extends AppCompatActivity implements IView, Vie
     private SearchView searchView;
     private MenuItem searchMenuItem;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.model = new Model(this);
-        this.networkManager = new NetworkManager(api_key, units, model);
+        this.model = new Model();
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
+        String temp_unit_string = prefs.getString(getString(R.string.temp_unit_key), Unit.Fahrenheit.toString());
+        if (temp_unit_string != null)
+        {
+            this.units = Unit.valueOf(temp_unit_string);
+        }
 
+        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units);
+        this.networkManager = new NetworkManager(weatherapi, model);
+
+        // Load new data for hardcoded city
+        // TODO: remove this
         this.networkManager.addRequest(5248171);
+        this.networkManager.addRequest(2172797);
 
         setContentView(R.layout.activity_weather_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,26 +90,6 @@ public class WeatherListActivity extends AppCompatActivity implements IView, Vie
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void showErrorMessage(String message) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        toast.show();
-    }
-
-    @Override
-    public void updateWeatherItem(int index, Weather weather) {
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
     @Override
     public void onDestroy() {

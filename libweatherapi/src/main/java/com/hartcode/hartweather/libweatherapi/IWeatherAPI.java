@@ -9,4 +9,5 @@ public interface IWeatherAPI {
     Weather getWeatherByCity(int cityId);
     Weather getWeatherByLatLon(float lat, float lon);
     Weather findCityByNameOrZip(String question);
+    void setUnits(Unit unit);
 }

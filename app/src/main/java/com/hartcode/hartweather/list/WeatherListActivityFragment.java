@@ -27,7 +27,7 @@ public class WeatherListActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_weather_list, container, false);
 
-        this.weatherListAdapter = new WeatherListAdapter(this.model);
+        this.weatherListAdapter = new WeatherListAdapter(this.model,this.getActivity());
 
         this.recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -9,7 +9,7 @@ import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.Weather;
 import com.hartcode.hartweather.list.*;
 
-public class WeatherDetailActivity extends AppCompatActivity implements IView {
+public class WeatherDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class WeatherDetailActivity extends AppCompatActivity implements IView {
         WeatherDetailActivityFragment fragment = (WeatherDetailActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
 
-        Model model = new Model(this);
+        Model model = new Model();
 
         int weatherIndex;
         Bundle extras = getIntent().getExtras();
@@ -34,14 +34,4 @@ public class WeatherDetailActivity extends AppCompatActivity implements IView {
 
         }
     }
-
-    @Override
-    public void showErrorMessage(String message) {
-
-    }
-
-    @Override
-    public void updateWeatherItem(int index, Weather weather) {
-
-    }
-}
+ }

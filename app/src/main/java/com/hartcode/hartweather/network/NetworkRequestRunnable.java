@@ -13,23 +13,13 @@ public class NetworkRequestRunnable implements Runnable{
     private boolean isCanceled = false;
     private final Queue<NetworkParams> outgoingQueue;
     private final Queue<Weather> incomingQueue;
-    private final String api_key;
-    private Unit units = Unit.Fahrenheit;
-    private IWeatherAPI weatherapi;
+    private final IWeatherAPI weatherapi;
 
-    public NetworkRequestRunnable(Queue<NetworkParams> outgoingQueue, Queue<Weather> incomingQueue, String api_key, Unit units)
+    public NetworkRequestRunnable(Queue<NetworkParams> outgoingQueue, Queue<Weather> incomingQueue, IWeatherAPI weatherapi)
     {
         this.outgoingQueue = outgoingQueue;
         this.incomingQueue = incomingQueue;
-        this.api_key = api_key;
-        this.setUnits(units);
-    }
-
-    public void setUnits(Unit units)
-    {
-        this.units = units;
-        this.weatherapi = new WeatherAPI(this.api_key,this.units);
-        this.logger.debug("Changing Units to:" + units);
+        this.weatherapi = weatherapi;
     }
 
     @Override

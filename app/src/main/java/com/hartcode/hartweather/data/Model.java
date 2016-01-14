@@ -1,5 +1,8 @@
 package com.hartcode.hartweather.data;
 
+import android.os.Handler;
+import android.os.Message;
+
 import com.hartcode.hartweather.data.record.*;
 import com.hartcode.hartweather.list.*;
 import com.hartcode.hartweather.libweatherapi.*;
@@ -15,23 +18,32 @@ import java.util.*;
 public class Model {
     private static final Logger logger = LogManager.getLogger(Model.class);
     private final List<WeatherRecord> favoriteWeatherList;
+    private final List<WeatherRecord> searchWeatherList;
     private static final int INDEX_NOT_FOUND = -1;
     private static final int MAX_LIST_SIZE = 10;
-    private final IView view;
+    private WeatherDataChangeHandler weatherDataChangeHandler;
 
     /**
      * The data model for HartWeather.
+     */
+    public Model()
+    {
+        this.favoriteWeatherList = new ArrayList<>();
+        this.searchWeatherList = new ArrayList<>();
+
+        this.loadFromDB();
+    }
+    /**
+     *
      * @param view The user interface to update when the model changes.
      */
-    public Model(IView view)
+    public void setView(IView view)
     {
         if (view == null)
         {
             throw new IllegalArgumentException("View cannot be null.");
         }
-        this.favoriteWeatherList = new ArrayList<>();
-        this.view = view;
-        this.loadFromDB();
+        this.weatherDataChangeHandler = new WeatherDataChangeHandler(view);
     }
 
 
@@ -57,28 +69,28 @@ public class Model {
         if (this.containsWeather(weather))
         {
             int index = this.getWeatherIndex(weather);
-            // replace current weather
+            // Replace current weather
             WeatherRecord record = this.favoriteWeatherList.get(index);
             record.updateFromWeatherRecord(weather);
             if (okToSave)
             {
-
                 record.save();
             }
-            this.view.updateWeatherItem(index, weather.toWeather());
+            this.sendWeatherDataChange();
             retval = true;
         }else
         {
             if (this.favoriteWeatherList.size() >= MAX_LIST_SIZE)
             {
                 // Favorites is Full
-                view.showErrorMessage("Too Many Favorites Already.");
+                this.sendShowErrorMessage("Too Many Favorites Already.");
+
             }
             else
             {
-                // Add new Weather to Full
+                // Add new Weather to list
                 this.favoriteWeatherList.add(weather);
-                this.view.updateWeatherItem(this.favoriteWeatherList.size()-1, weather.toWeather());
+                this.sendWeatherDataChange();
                 if (okToSave)
                 {
                     weather.save();
@@ -89,6 +101,11 @@ public class Model {
         return retval;
     }
 
+    public void addSearchData(List<WeatherRecord> weatherRecords)
+    {
+        this.searchWeatherList.clear();
+        this.searchWeatherList.addAll(weatherRecords);
+    }
     /**
      *  Checks the data model for the given weather.
      *  Returns the index in the array if it's found.
@@ -133,9 +150,18 @@ public class Model {
         return this.favoriteWeatherList.get(index).toWeather();
     }
 
-    public int size()
+    public Weather getSearchItem(int index)
+    {
+        return this.searchWeatherList.get(index).toWeather();
+    }
+
+    public int weatherSize()
     {
         return this.favoriteWeatherList.size();
+    }
+    public int searchSize()
+    {
+        return this.searchWeatherList.size();
     }
 
     private void loadFromDB()
@@ -147,6 +173,25 @@ public class Model {
         {
             this.addUpdate(weatherRecords.get(i), false);
         }
-
     }
+
+    public void delete(int index)
+    {
+        WeatherRecord weatherRecord = this.favoriteWeatherList.remove(index);
+        weatherRecord.delete();
+        this.sendWeatherDataChange();
+    }
+    private void sendShowErrorMessage(String Message) {
+        if (this.weatherDataChangeHandler != null) {
+            //this.weatherDataChangeHandler.send
+        }
+    }
+
+    private void sendWeatherDataChange()
+    {
+        if (this.weatherDataChangeHandler != null) {
+            this.weatherDataChangeHandler.sendEmptyMessage(0);
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.hartcode.hartweather.network;
 
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
+
 import org.apache.logging.log4j.*;
 import java.util.*;
 
@@ -17,14 +18,16 @@ public class NetworkManager {
     private final NetworkRequestRunnable networkRequestRunnable;
     private final Thread networkResponseThread;
     private final NetworkResponseRunnable networkResponseRunnable;
+    private final IWeatherAPI weatherapi;
 
-    public NetworkManager(String api_key, Unit units, Model model) {
+    public NetworkManager(IWeatherAPI weatherapi, Model model) {
 
+        this.weatherapi = weatherapi;
         this.outgoingQueue = new LinkedList<>();
         this.incomingQueue = new LinkedList<>();
         this.model = model;
 
-        this.networkRequestRunnable = new NetworkRequestRunnable(this.outgoingQueue, this.incomingQueue, api_key, units);
+        this.networkRequestRunnable = new NetworkRequestRunnable(this.outgoingQueue, this.incomingQueue, this.weatherapi);
         this.networkResponseRunnable = new NetworkResponseRunnable(this.incomingQueue, this.model);
 
         this.networkRequestThread = new Thread(this.networkRequestRunnable);
@@ -32,11 +35,6 @@ public class NetworkManager {
 
         this.networkResponseThread = new Thread(this.networkResponseRunnable);
         this.networkResponseThread.start();
-    }
-
-    public void setUnits(Unit units)
-    {
-        this.networkRequestRunnable.setUnits(units);
     }
 
     public void addRequest(Integer cityId)

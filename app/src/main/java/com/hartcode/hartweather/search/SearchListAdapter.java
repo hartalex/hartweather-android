@@ -1,22 +1,25 @@
-package com.hartcode.hartweather.list;
+package com.hartcode.hartweather.search;
 
 import android.app.Activity;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.*;
+import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.data.Model;
+import com.hartcode.hartweather.list.IView;
 
 /**
  *
  */
-public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHolder> implements IView{
+public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder> implements IView {
 
     private Model model;
     private Activity activity;
 
-    public WeatherListAdapter(Model model, Activity activity)
+    public SearchListAdapter(Model model, Activity activity)
     {
         if (this.model != null)
         {
@@ -27,20 +30,21 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
 
     public void setModel(Model model)
     {
+
         this.model = model;
         this.model.setView(this);
         this.notifyDataSetChanged();
     }
 
     @Override
-    public WeatherItemViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
+    public SearchItemViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.weather_list_item, parent, false);
-        return new WeatherItemViewHolder(view, this.activity);
+                .inflate(R.layout.search_list_item, parent, false);
+        return new SearchItemViewHolder(view, this.activity);
     }
 
     @Override
-    public void onBindViewHolder(WeatherItemViewHolder holder, int pos) {
+    public void onBindViewHolder(SearchItemViewHolder holder, int pos) {
         holder.bindData(this.model, pos);
     }
 
@@ -49,7 +53,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
         int retval = 0;
         if (this.model != null)
         {
-            retval = this.model.weatherSize();
+            retval = this.model.searchSize();
         }
         return retval;
     }
@@ -64,5 +68,4 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
     public void weatherDataChange() {
         this.notifyDataSetChanged();
     }
-
 }

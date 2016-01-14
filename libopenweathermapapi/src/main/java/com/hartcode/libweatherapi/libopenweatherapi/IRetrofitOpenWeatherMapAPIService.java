@@ -8,7 +8,7 @@ import retrofit2.http.*;
 /**
  *
  */
-public interface IOpenWeatherMapAPIService {
+public interface IRetrofitOpenWeatherMapAPIService {
 
     @GET("data/2.5/weather")
     Call<OpenWeather> getWeatherByLatLon(@Query("lat") float lat, @Query("lon") float lon, @Query("appid") String api, @Query("units") String units);

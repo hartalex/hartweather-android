@@ -4,18 +4,12 @@
     android:layout_height="match_parent"
     tools:context="com.hartcode.hartweather.list.WeatherListActivityFragment"
     tools:showIn="@layout/activity_weather_list">
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         android:drawSelectorOnTop="false"
         android:dividerHeight="0dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
         android:scrollbars="none"
-        android:divider="@android:color/transparent">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:divider="@android:color/transparent"/>
 </RelativeLayout>

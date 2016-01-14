@@ -7,16 +7,19 @@ import junit.framework.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class WeatherAPITest extends TestCase {
-    private static final Logger logger = LogManager.getLogger(WeatherAPITest.class);
+public class OpenWeatherMapWeatherAPITest extends TestCase {
+    private static final Logger logger = LogManager.getLogger(OpenWeatherMapWeatherAPITest.class);
     private final static int CAIRNS_CITY_ID = 2172797;
+
+    // Normally the api key would be pulled from a private server and not hardcoded.
+    // However since the api doesn't support ssl it is trivial to scrape the key from http logs.
     private final static String API_KEY = "2de143494c0b295cca9337e1e96b00e0";
     private IWeatherAPI api;
 
     @Override
     protected void setUp()
     {
-        api = new WeatherAPI(API_KEY,Unit.Fahrenheit);
+        api = new OpenWeatherMapWeatherAPI(API_KEY,Unit.Fahrenheit);
     }
 
     public void testGetWeatherByCity() {
@@ -44,7 +47,7 @@ public class WeatherAPITest extends TestCase {
         boolean caught = false;
         try
         {
-            new WeatherAPI(null,Unit.Celcius);
+            new OpenWeatherMapWeatherAPI(null,Unit.Celcius);
         }catch(IllegalArgumentException iae)
         {
             caught = true;
@@ -57,7 +60,7 @@ public class WeatherAPITest extends TestCase {
         boolean caught = false;
         try
         {
-            new WeatherAPI(API_KEY,null);
+            new OpenWeatherMapWeatherAPI(API_KEY,null);
         }catch(IllegalArgumentException iae)
         {
             caught = true;
