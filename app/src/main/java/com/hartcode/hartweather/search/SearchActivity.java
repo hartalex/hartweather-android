@@ -1,28 +1,19 @@
 package com.hartcode.hartweather.search;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.app.*;
+import android.content.*;
+import android.net.*;
+import android.os.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
 
-import com.hartcode.hartweather.R;
-import com.hartcode.hartweather.data.Model;
-import com.hartcode.hartweather.libweatherapi.IWeatherAPI;
-import com.hartcode.hartweather.libweatherapi.Unit;
-import com.hartcode.hartweather.libweatherapi.Weather;
-import com.hartcode.hartweather.list.IView;
-import com.hartcode.hartweather.list.WeatherListActivityFragment;
-import com.hartcode.hartweather.network.IConnectivity;
-import com.hartcode.hartweather.network.NetworkManager;
-import com.hartcode.libweatherapi.libopenweatherapi.OpenWeatherMapWeatherAPI;
+import com.hartcode.hartweather.*;
+import com.hartcode.hartweather.data.*;
+import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.network.*;
+import com.hartcode.libweatherapi.libopenweatherapi.*;
+
+import java.util.*;
 
 public class SearchActivity extends AppCompatActivity implements IConnectivity {
 
@@ -53,7 +44,7 @@ public class SearchActivity extends AppCompatActivity implements IConnectivity {
                 (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
 
 
-        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units);
+        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units, Locale.getDefault().getCountry());
         this.networkManager = new NetworkManager(weatherapi, model, this);
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             String name = getIntent().getStringExtra(SearchManager.QUERY);

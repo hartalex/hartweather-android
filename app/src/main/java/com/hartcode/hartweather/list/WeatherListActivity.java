@@ -2,23 +2,23 @@ package com.hartcode.hartweather.list;
 
 import android.app.*;
 import android.content.*;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.*;
 import android.os.*;
 import android.support.design.widget.*;
-import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.*;
 import android.support.v7.app.*;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.*;
 import android.view.*;
 
-import com.hartcode.hartweather.R;
+import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.network.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;
 
 import org.slf4j.*;
+
+import java.util.*;
 
 public class WeatherListActivity extends AppCompatActivity implements View.OnClickListener, MenuItemCompat.OnActionExpandListener, IConnectivity {
     private static final Logger logger = LoggerFactory.getLogger(WeatherListActivity.class);
@@ -49,7 +49,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
 
-        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units);
+        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units, Locale.getDefault().getCountry());
         this.networkManager = new NetworkManager(weatherapi, model, this);
 
 
