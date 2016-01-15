@@ -30,6 +30,8 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private ConnectivityManager connectivityManager;
+    private boolean isSearchShown;
+    private CharSequence searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +67,11 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        if (savedInstanceState != null) {
+            this.isSearchShown = savedInstanceState.getBoolean("isSearchShown", false);
+            this.searchText = savedInstanceState.getCharSequence("searchText", "");
 
-        boolean isSearchShown = savedInstanceState.getBoolean("isSearchShown",false);
-        if (isSearchShown) {
-            this.searchMenuItem.expandActionView();
         }
-        CharSequence searchText = savedInstanceState.getCharSequence("searchText", "");
-        if (searchText != "")
-        {
-            this.searchView.setQuery(searchText,false);
-        }
-
     }
 
     @Override
@@ -88,6 +84,12 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         this.searchView = (SearchView) searchMenuItem.getActionView();
         this.searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         this.searchView.setIconifiedByDefault(true);
+        if (this.isSearchShown) {
+            this.searchMenuItem.expandActionView();
+        }
+        if (this.searchText != "") {
+            this.searchView.setQuery(searchText, false);
+        }
         return true;
     }
 
@@ -136,8 +138,8 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onSaveInstanceState(Bundle bundle)
     {
-        super.onSaveInstanceState(bundle);
         bundle.putBoolean("isSearchShown",this.searchMenuItem.isActionViewExpanded());
         bundle.putCharSequence("searchText", this.searchView.getQuery());
+        super.onSaveInstanceState(bundle);
     }
 }
