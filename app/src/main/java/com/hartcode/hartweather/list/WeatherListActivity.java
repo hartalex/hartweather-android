@@ -66,6 +66,16 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
+        boolean isSearchShown = savedInstanceState.getBoolean("isSearchShown",false);
+        if (isSearchShown) {
+            this.searchMenuItem.expandActionView();
+        }
+        CharSequence searchText = savedInstanceState.getCharSequence("searchText", "");
+        if (searchText != "")
+        {
+            this.searchView.setQuery(searchText,false);
+        }
+
     }
 
     @Override
@@ -121,5 +131,13 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         NetworkInfo networkInfo = this.connectivityManager.getActiveNetworkInfo();
         retval = (networkInfo != null && networkInfo.isConnected()) ;
         return retval;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle)
+    {
+        super.onSaveInstanceState(bundle);
+        bundle.putBoolean("isSearchShown",this.searchMenuItem.isActionViewExpanded());
+        bundle.putCharSequence("searchText", this.searchView.getQuery());
     }
 }
