@@ -1,5 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hartcode.hartweather.list.WeatherListActivityFragment"
@@ -12,4 +13,4 @@
         android:dividerHeight="0dp"
         android:scrollbars="none"
         android:divider="@android:color/transparent"/>
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

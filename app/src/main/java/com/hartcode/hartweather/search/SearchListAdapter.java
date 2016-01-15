@@ -1,20 +1,16 @@
 package com.hartcode.hartweather.search;
 
-import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.app.*;
+import android.support.v7.widget.*;
+import android.view.*;
 
-import com.hartcode.hartweather.R;
-import com.hartcode.hartweather.data.Model;
-import com.hartcode.hartweather.list.IView;
+import com.hartcode.hartweather.*;
+import com.hartcode.hartweather.data.*;
 
 /**
  *
  */
-public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder> implements IView {
+public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder> implements IWeatherChangeDataListener {
 
     private Model model;
     private Activity activity;
@@ -32,7 +28,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder
     {
 
         this.model = model;
-        this.model.setView(this);
+        this.model.addWeatherChangeDataListener(this);
         this.notifyDataSetChanged();
     }
 
@@ -58,14 +54,18 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchItemViewHolder
         return retval;
     }
 
-    @Override
+    /*@Override
     public void showErrorMessage(String message) {
         Toast toast = Toast.makeText(this.activity, message, Toast.LENGTH_LONG);
         toast.show();
-    }
+    }*/
 
     @Override
     public void weatherDataChange() {
+        // Update list
         this.notifyDataSetChanged();
+        // notify
     }
+
+
 }

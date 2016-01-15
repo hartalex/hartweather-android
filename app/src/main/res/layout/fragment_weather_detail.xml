@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:minHeight="100sp"
-                android:src="@mipmap/icon01d" />
+                android:src="@mipmap/icon01n" />
 
             <TextView
                 android:id="@+id/txtWeatherName"

@@ -90,7 +90,7 @@ public class WeatherRecord extends SugarRecord {
 
     public Weather toWeather()
     {
-        return new Weather(this.id, this.cityId, this.lat, this.lon, this.cityName,this.main,this.description,this.icon,this.temp, this.pressure,this.humidity, this.temp_min, this.temp_max, this.lastUpdate);
+        return new Weather(this.id, this.cityId, this.lat, this.lon, this.cityName,this.main,this.description,this.icon,this.temp, this.pressure,this.humidity, this.temp_min, this.temp_max, this.lastUpdate, 200);
     }
 
 

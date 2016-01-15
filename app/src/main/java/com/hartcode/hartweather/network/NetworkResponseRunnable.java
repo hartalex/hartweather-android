@@ -40,8 +40,6 @@ public class NetworkResponseRunnable implements Runnable {
                         }
                     }
 
-
-
                 // After main task which could be intensive, check if the thread is cancelled
                 if (!this.isCanceled) {
                     // if successful remove from the queue.

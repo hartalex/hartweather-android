@@ -11,7 +11,7 @@ import com.hartcode.hartweather.*;
 /**
  *
  */
-public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHolder> implements IView{
+public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHolder> implements IWeatherChangeDataListener{
 
     private Model model;
     private Activity activity;
@@ -28,7 +28,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
     public void setModel(Model model)
     {
         this.model = model;
-        this.model.setView(this);
+        this.model.addWeatherChangeDataListener(this);
         this.notifyDataSetChanged();
     }
 
@@ -54,11 +54,11 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
         return retval;
     }
 
-    @Override
+    /*@Override
     public void showErrorMessage(String message) {
         Toast toast = Toast.makeText(this.activity, message, Toast.LENGTH_LONG);
         toast.show();
-    }
+    }*/
 
     @Override
     public void weatherDataChange() {

@@ -1,7 +1,5 @@
 package com.hartcode.hartweather.list;
 
-import com.hartcode.hartweather.libweatherapi.*;
-
 /**
  *
  */

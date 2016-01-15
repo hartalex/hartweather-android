@@ -18,6 +18,7 @@ public class Model {
     private static final int INDEX_NOT_FOUND = -1;
     private static final int MAX_LIST_SIZE = 10;
     private WeatherDataChangeHandler weatherDataChangeHandler;
+    private List<IWeatherChangeDataListener> weatherChangeDataListeners;
 
     /**
      * The data model for HartWeather.
@@ -26,22 +27,16 @@ public class Model {
     {
         this.favoriteWeatherList = new ArrayList<>();
         this.searchWeatherList = new ArrayList<>();
-
+        this.weatherChangeDataListeners = new ArrayList<>();
+        this.weatherDataChangeHandler = new WeatherDataChangeHandler(this.weatherChangeDataListeners);
         this.loadFromDB();
     }
-    /**
-     *
-     * @param view The user interface to update when the model changes.
-     */
-    public void setView(IView view)
-    {
-        if (view == null)
-        {
-            throw new IllegalArgumentException("View cannot be null.");
-        }
-        this.weatherDataChangeHandler = new WeatherDataChangeHandler(view);
-    }
 
+    public void addWeatherChangeDataListener(IWeatherChangeDataListener weatherChangeDataListener)
+    {
+        this.weatherChangeDataListeners.add(weatherChangeDataListener);
+
+    }
 
 
     /**

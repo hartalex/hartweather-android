@@ -20,13 +20,14 @@ public class Weather {
     public double temp_min;
     public double temp_max;
     public long lastUpdate;
+    public int error;
 
-    public Weather()
+    public Weather(int error)
     {
-
+        this.error = error;
     }
 
-    public Weather(long id, int cityId, double lat, double lon, String cityName, String main, String description, String icon, double temp, double pressure, double humidity, double temp_min, double temp_max, long lastUpdate)
+    public Weather(long id, int cityId, double lat, double lon, String cityName, String main, String description, String icon, double temp, double pressure, double humidity, double temp_min, double temp_max, long lastUpdate, int error)
     {
         this.id = id;
         this.cityId = cityId;
@@ -42,12 +43,13 @@ public class Weather {
         this.temp_max = temp_max;
         this.temp_min = temp_min;
         this.lastUpdate = lastUpdate;
+        this.error = error;
     }
 
     @Override
     public String toString()
     {
-        return "id: " + id + ", cityId:" + cityId + ", lat:" + lat + ", lon:" + lon +", cityName:" + cityName  + ", main:" + main + ", description:" + description + ", icon:" + icon + ", temp:" + temp + ", pressure:" + pressure + ", humidity:" + humidity + ", temp_min:" + temp_min + ", temp_max:" + temp_max + ", lastUpdate: " + lastUpdate;
+        return "id: " + id + ", cityId:" + cityId + ", lat:" + lat + ", lon:" + lon +", cityName:" + cityName  + ", main:" + main + ", description:" + description + ", icon:" + icon + ", temp:" + temp + ", pressure:" + pressure + ", humidity:" + humidity + ", temp_min:" + temp_min + ", temp_max:" + temp_max + ", lastUpdate: " + lastUpdate + ", error: " + error;
     }
 
 

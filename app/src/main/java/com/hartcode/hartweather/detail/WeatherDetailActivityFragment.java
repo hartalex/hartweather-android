@@ -1,5 +1,6 @@
 package com.hartcode.hartweather.detail;
 
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
@@ -45,8 +46,8 @@ public class WeatherDetailActivityFragment extends Fragment {
         this.txtCityName.setText(weather.cityName);
         String temp = String.valueOf((int)weather.temp);
         this.txtWeatherTemp.setText(temp + (char)0x00B0);
-        int iconResource = this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName());
-        this.imgWeather.setBackgroundResource(iconResource);
+        Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
+        this.imgWeather.setImageDrawable(iconResource);
         this.txtWeatherName.setText(weather.main);
         temp = String.valueOf((int)weather.temp_min);
         this.txtLowTemp.setText("Low: " + temp + (char)0x00B0);

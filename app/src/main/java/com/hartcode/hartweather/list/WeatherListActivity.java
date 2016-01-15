@@ -33,6 +33,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     private boolean isSearchShown;
     private CharSequence searchText;
     private FloatingActionButton floatingActionButton;
+    WeatherListActivityFragment weatherListActivityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +53,13 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units, Locale.getDefault().getCountry());
         this.networkManager = new NetworkManager(weatherapi, model, this);
 
-
-        for (int i = 0; i < this.model.weatherSize(); i++) {
-            this.networkManager.addRequest(this.model.getItem(i));
-        }
-
         setContentView(R.layout.activity_weather_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        WeatherListActivityFragment fragment = (WeatherListActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        fragment.setData(model);
+
+        this.weatherListActivityFragment = (WeatherListActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        this.weatherListActivityFragment.setData(model,this.networkManager);
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(this);
@@ -70,6 +67,10 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
             this.isSearchShown = savedInstanceState.getBoolean("isSearchShown", false);
             this.searchText = savedInstanceState.getCharSequence("searchText", "");
 
+        }
+
+        for (int i = 0; i < this.model.weatherSize(); i++) {
+            this.networkManager.addRequest(this.model.getItem(i));
         }
     }
 
@@ -173,4 +174,20 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        boolean isHandled = false;
+        if (this.weatherListActivityFragment != null) {
+            isHandled = this.weatherListActivityFragment.onBackPressed();
+        }
+
+        if (!isHandled){
+            super.onBackPressed();
+        }
+    }
+
+
+
+
 }

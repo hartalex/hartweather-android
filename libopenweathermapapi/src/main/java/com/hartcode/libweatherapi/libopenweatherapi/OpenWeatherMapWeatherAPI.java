@@ -69,10 +69,15 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
             Call<OpenWeather> openWeatherCall =
                 weatherMapAPIService.getWeatherByCity(cityId, this.apiKey, this.units);
             OpenWeather ow = openWeatherCall.execute().body();
-            if (ow != null && ow.weather != null && ow.weather.size() > 0)
-            {
-                retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
+            if (ow != null) {
+                if (ow.cod == 200) {
+                    retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, ow.cod);
+                }else
+                {
+                    retval = new Weather(ow.cod);
+                }
             }
+
             logger.debug(ow.toString());
         } catch (IOException e) {
             logger.error("Error in getWeatherByCity.",e);
@@ -87,9 +92,13 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
             Call<OpenWeather> openWeatherCall =
                     weatherMapAPIService.getWeatherByLatLon(lat, lon, this.apiKey, this.units);
             OpenWeather ow = openWeatherCall.execute().body();
-            if (ow != null && ow.weather != null && ow.weather.size() > 0)
-            {
-                retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name,ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp,ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt);
+            if (ow != null) {
+                if (ow.cod == 200) {
+                    retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, ow.cod);
+                }else
+                {
+                    retval = new Weather(ow.cod);
+                }
             }
             logger.debug(ow.toString());
         } catch (IOException e) {
@@ -117,12 +126,19 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
                     weatherMapAPIService.findCityByNameOrZip(question, this.apiKey, this.units, "like");
             SearchData search = openWeatherCall.execute().body();
             logger.debug(search.toString());
-            if (search != null && search.message != null && search.list != null && search.list.size() > 0)
+            if (search != null)
             {
-                retval = new ArrayList<>();
-                for(int i = 0; i < search.list.size(); i++) {
-                    OpenWeather ow = search.list.get(i);
-                    retval.add(new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt));
+                if (search.cod == 200) {
+                    retval = new ArrayList<>();
+                    for (int i = 0; i < search.list.size(); i++) {
+                        OpenWeather ow = search.list.get(i);
+                        if (ow != null) {
+                               retval.add(new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, 200));
+                        }
+                    }
+                }else
+                {
+                    retval.add(new Weather(search.cod));
                 }
                 logger.debug(retval.toString());
             }

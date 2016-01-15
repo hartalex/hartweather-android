@@ -1,26 +1,20 @@
 package com.hartcode.hartweather.search;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.app.*;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.support.v7.widget.*;
+import android.view.*;
+import android.widget.*;
 
-import com.hartcode.hartweather.R;
-import com.hartcode.hartweather.data.Model;
-import com.hartcode.hartweather.data.record.WeatherRecord;
-import com.hartcode.hartweather.detail.WeatherDetailActivity;
-import com.hartcode.hartweather.libweatherapi.Weather;
-import com.hartcode.hartweather.list.WeatherListActivity;
+import com.hartcode.hartweather.*;
+import com.hartcode.hartweather.data.*;
+import com.hartcode.hartweather.data.record.*;
+import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.list.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import java.text.*;
+import java.util.*;
 
 /**
  *
@@ -30,7 +24,6 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
     private final View view;
     private final TextView txtCityName;
     private final TextView txtWeatherTemp;
-    private final ImageView imgWeather;
     private final TextView txtLastUpdate;
     private final Activity activity;
     private Model model;
@@ -42,7 +35,6 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         this.view = itemView;
         this.txtCityName = (TextView)this.view.findViewById(R.id.txtCityName);
         this.txtWeatherTemp = (TextView)this.view.findViewById(R.id.txtWeatherTemp);
-        this.imgWeather = (ImageView)this.view.findViewById(R.id.imgWeather);
         this.txtLastUpdate = (TextView)this.view.findViewById(R.id.txtLastUpdate);
         this.activity = activity;
         this.view.setOnClickListener(this);
@@ -54,8 +46,8 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         this.txtCityName.setText(weather.cityName);
         String temp = String.valueOf((int)weather.temp);
         this.txtWeatherTemp.setText(temp + (char)0x00B0);
-        int iconResource = this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName());
-        this.imgWeather.setBackgroundResource(iconResource);
+        Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
+        this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(weather.lastUpdate*1000);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);

@@ -18,13 +18,15 @@ public class NetworkRequestRunnable implements Runnable{
     private final IWeatherAPI weatherapi;
     private long backoffTime = DEFAULT_BACK_OFF_TIME;
     private final IConnectivity connectivity;
+    private final NetworkManager networkManager;
 
-    public NetworkRequestRunnable(Queue<NetworkRequest> outgoingQueue, Queue<NetworkResponse> incomingQueue, IWeatherAPI weatherapi, IConnectivity connectivity)
+    public NetworkRequestRunnable(Queue<NetworkRequest> outgoingQueue, Queue<NetworkResponse> incomingQueue, IWeatherAPI weatherapi, IConnectivity connectivity, NetworkManager networkManager)
     {
         this.outgoingQueue = outgoingQueue;
         this.incomingQueue = incomingQueue;
         this.weatherapi = weatherapi;
         this.connectivity = connectivity;
+        this.networkManager = networkManager;
     }
 
     @Override
@@ -46,24 +48,23 @@ public class NetworkRequestRunnable implements Runnable{
                     // After network intensive task, check if the thread is cancelled
                     if (!this.isCanceled) {
                         if (weather != null || weatherList != null) {
-                            if (weather != null) {
+
+                            if (weather != null && weather.error == 200) {
                                 this.incomingQueue.add(new NetworkResponse(networkRequest, weather));
-                            }
-                            if (weatherList != null)
+
+                               this.popFromQueue();
+                            }else if (weatherList != null && weatherList.size() > 0 && weatherList.get(0).error == 200)
                             {
                                 this.incomingQueue.add(new NetworkResponse(networkRequest, weatherList));
-                            }
 
-                            // if successful remove from the queue.
-                            try {
-                                this.outgoingQueue.remove();
-                            } catch (NoSuchElementException nsee) {
-                                logger.warn("No Such Element removing from outgoing queue.", nsee);
+                                this.popFromQueue();
+                            }else
+                            {
+                                // api is down or call count exceeded
+                                this.popFromQueue();
                             }
-                            // network request successful reset backofftime
-                            backoffTime = DEFAULT_BACK_OFF_TIME;
                         } else {
-                            // API Request Failure
+                            // Network is probably down
                             // need to increase backoff time exponentially
                             if (backoffTime < DEFAULT_BACK_OFF_TIME_MAX) {
                                 backoffTime *= 2;
@@ -72,6 +73,8 @@ public class NetworkRequestRunnable implements Runnable{
                     }
                 }else
                 {
+                    // Tell the view that the queue is empty
+                    this.networkManager.sendNetworkQueueChange(true);
                     // Network is connected, but queue is empty
                     backoffTime = DEFAULT_BACK_OFF_TIME;
                 }
@@ -96,4 +99,16 @@ public class NetworkRequestRunnable implements Runnable{
     public void stopThread() {
         this.isCanceled = true;
      }
+
+    private void popFromQueue()
+    {
+        // if successful remove from the queue.
+        try {
+            this.outgoingQueue.remove();
+        } catch (NoSuchElementException nsee) {
+            logger.warn("No Such Element removing from outgoing queue.", nsee);
+        }
+        // network request successful reset backofftime
+        backoffTime = DEFAULT_BACK_OFF_TIME;
+    }
 }
