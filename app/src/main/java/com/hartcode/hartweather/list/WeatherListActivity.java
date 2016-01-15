@@ -10,7 +10,6 @@ import android.support.v7.app.*;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
-import android.widget.Toast;
 
 import com.hartcode.hartweather.R;
 import com.hartcode.hartweather.data.*;
