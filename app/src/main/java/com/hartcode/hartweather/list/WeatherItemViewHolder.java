@@ -83,7 +83,9 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder  implements V
     @Override
     public boolean onLongClick(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.view.getContext());
-        builder.setMessage("Delete?").setPositiveButton("Yes", this)
+        builder.setTitle("Delete");
+        builder.setIcon(android.R.drawable.ic_menu_delete);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", this)
                 .setNegativeButton("No", this).show();
         return false;
     }
