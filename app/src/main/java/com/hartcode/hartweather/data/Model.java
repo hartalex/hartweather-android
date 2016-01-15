@@ -120,7 +120,10 @@ public class Model {
         while(retval == INDEX_NOT_FOUND && i < this.favoriteWeatherList.size())
         {
             WeatherRecord weatherRecord = this.favoriteWeatherList.get(i);
-            if (weatherRecord.lat == weather.lat && weatherRecord.lon == weather.lon)
+            double lat = Math.abs(weatherRecord.lat) - Math.abs(weather.lat);
+            double lon = Math.abs(weatherRecord.lon) - Math.abs(weather.lon);
+
+            if (weatherRecord.cityId == weather.cityId || (weatherRecord.cityName.equals(weather.cityName) && lat < 0.1 && lon < 0.1))
             {
                 retval = i;
             }

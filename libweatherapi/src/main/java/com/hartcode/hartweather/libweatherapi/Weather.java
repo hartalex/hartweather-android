@@ -8,17 +8,17 @@ import java.lang.*;
 public class Weather {
     public long id;
     public int cityId;
-    public float lat;
-    public float lon;
+    public double lat;
+    public double lon;
     public String cityName;
     public String main;
     public String description;
     public String icon;
-    public float temp;
-    public float pressure;
-    public float humidity;
-    public float temp_min;
-    public float temp_max;
+    public double temp;
+    public double pressure;
+    public double humidity;
+    public double temp_min;
+    public double temp_max;
     public long lastUpdate;
 
     public Weather()
@@ -26,7 +26,7 @@ public class Weather {
 
     }
 
-    public Weather(long id, int cityId, float lat, float lon, String cityName, String main, String description, String icon, float temp, float pressure, float humidity, float temp_min, float temp_max, long lastUpdate)
+    public Weather(long id, int cityId, double lat, double lon, String cityName, String main, String description, String icon, double temp, double pressure, double humidity, double temp_min, double temp_max, long lastUpdate)
     {
         this.id = id;
         this.cityId = cityId;

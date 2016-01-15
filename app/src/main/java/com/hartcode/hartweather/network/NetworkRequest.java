@@ -6,21 +6,19 @@ import java.lang.*;
  */
 public class NetworkRequest
 {
-    public final float lat;
-    public final float lon;
+    public final static int DEFAULT_CITY_ID = -1;
+    public final int cityId;
     public final String cityName;
 
-    public NetworkRequest(float lat, float lon)
+    public NetworkRequest(int cityId)
     {
-        this.lat = lat;
-        this.lon = lon;
+        this.cityId = cityId;
         this.cityName = null;
     }
 
     public NetworkRequest(String cityName)
     {
-        this.lat = Float.MIN_VALUE;
-        this.lon = Float.MIN_VALUE;
+        this.cityId = DEFAULT_CITY_ID;
         this.cityName = cityName;
     }
 
@@ -34,8 +32,7 @@ public class NetworkRequest
                 NetworkRequest rhs = (NetworkRequest) obj;
                 retval = (this.cityName == rhs.cityName ||
                         (this.cityName != null && this.cityName.equals(rhs.cityName))) &&
-                        this.lat == rhs.lat &&
-                        this.lon == rhs.lon;
+                        this.cityId == rhs.cityId;
             }
         }
         return retval;

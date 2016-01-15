@@ -31,6 +31,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     private ConnectivityManager connectivityManager;
     private boolean isSearchShown;
     private CharSequence searchText;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,8 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         WeatherListActivityFragment fragment = (WeatherListActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.setData(model);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(this);
         if (savedInstanceState != null) {
             this.isSearchShown = savedInstanceState.getBoolean("isSearchShown", false);
             this.searchText = savedInstanceState.getCharSequence("searchText", "");
@@ -86,7 +87,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         if (this.isSearchShown) {
             this.searchMenuItem.expandActionView();
         }
-        if (this.searchText != "") {
+        if (this.searchText != null && this.searchText != "") {
             this.searchView.setQuery(searchText, false);
         }
         return true;
@@ -121,9 +122,21 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
      */
     @Override
     public void onClick(View v) {
-
-        this.logger.debug("OnSearchRequested()");
-        this.searchMenuItem.expandActionView();
+            if (!this.searchMenuItem.isActionViewExpanded()) {
+                // Enable search
+                this.searchMenuItem.expandActionView();
+                // change fab to search button
+                this.floatingActionButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_search));
+            }
+            else
+            {
+                // If fab is in search mode than submit search
+                CharSequence queryText = this.searchView.getQuery();
+                if (queryText != null && queryText.length() > 0) {
+                    this.searchView.setQuery(queryText, true);
+                    this.floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.fab_add));
+                }
+            }
     }
 
     @Override
@@ -137,8 +150,25 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onSaveInstanceState(Bundle bundle)
     {
-        bundle.putBoolean("isSearchShown",this.searchMenuItem.isActionViewExpanded());
-        bundle.putCharSequence("searchText", this.searchView.getQuery());
+        if (this.searchMenuItem != null)
+        {
+            this.isSearchShown = this.searchMenuItem.isActionViewExpanded();
+            this.floatingActionButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_search));
+        }
+        else
+        {
+            this.isSearchShown = false;
+        }
+
+        if (this.searchView != null)
+        {
+            this.searchText = this.searchView.getQuery();
+        }else
+        {
+            this.searchText = "";
+        }
+        bundle.putBoolean("isSearchShown",this.isSearchShown);
+        bundle.putCharSequence("searchText", this.searchText);
         super.onSaveInstanceState(bundle);
     }
 }

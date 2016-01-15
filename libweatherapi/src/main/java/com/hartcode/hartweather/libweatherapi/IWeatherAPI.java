@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IWeatherAPI {
     Weather getWeatherByCity(int cityId);
-    Weather getWeatherByLatLon(float lat, float lon);
+    Weather getWeatherByLatLon(double lat, double lon);
     List<Weather> findCityByNameOrZip(String question);
     void setUnits(Unit unit);
 }

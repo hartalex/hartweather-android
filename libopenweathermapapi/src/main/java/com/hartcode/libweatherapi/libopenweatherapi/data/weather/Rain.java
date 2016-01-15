@@ -5,9 +5,9 @@ package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
  */
 public class Rain
 {
-    public final int threehr;
+    public final double threehr;
 
-    public Rain(int threehr)
+    public Rain(double threehr)
     {
         this.threehr = threehr;
     }

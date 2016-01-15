@@ -43,7 +43,7 @@ public class NetworkManager {
 
     public void addRequest(Weather weather)
     {
-        this.addNetworkRequest(new NetworkRequest(weather.lat, weather.lon));
+        this.addNetworkRequest(new NetworkRequest(weather.cityId));
     }
 
     public void addRequest(String name)

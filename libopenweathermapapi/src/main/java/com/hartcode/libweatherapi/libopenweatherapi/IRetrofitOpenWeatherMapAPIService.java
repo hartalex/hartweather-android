@@ -11,7 +11,7 @@ import retrofit2.http.*;
 public interface IRetrofitOpenWeatherMapAPIService {
 
     @GET("data/2.5/weather")
-    Call<OpenWeather> getWeatherByLatLon(@Query("lat") float lat, @Query("lon") float lon, @Query("appid") String api, @Query("units") String units);
+    Call<OpenWeather> getWeatherByLatLon(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String api, @Query("units") String units);
 
     @GET("data/2.5/weather")
     Call<OpenWeather> getWeatherByCity(@Query("id") int cityId, @Query("appid") String api, @Query("units") String units);

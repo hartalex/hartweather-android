@@ -5,9 +5,9 @@ package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
  */
 public class Clouds
 {
-    public final float all;
+    public final double all;
 
-    public Clouds(float all)
+    public Clouds(double all)
     {
         this.all = all;
     }

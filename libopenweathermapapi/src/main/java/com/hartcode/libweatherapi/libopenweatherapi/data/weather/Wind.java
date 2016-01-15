@@ -5,10 +5,10 @@ package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
  */
 public class Wind
 {
-    public final float speed;
-    public final float deg;
+    public final double speed;
+    public final double deg;
 
-    public Wind(float speed, float deg)
+    public Wind(long speed, long deg)
     {
         this.speed = speed;
         this.deg = deg;

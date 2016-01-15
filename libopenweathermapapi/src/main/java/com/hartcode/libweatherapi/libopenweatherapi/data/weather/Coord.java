@@ -5,10 +5,10 @@ package com.hartcode.libweatherapi.libopenweatherapi.data.weather;
  */
 public class Coord
 {
-    public final float lon;
-    public final float lat;
+    public final double lon;
+    public final double lat;
 
-    public Coord(float lon, float lat)
+    public Coord(double lon, double lat)
     {
         this.lon = lon;
         this.lat = lat;

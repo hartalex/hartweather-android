@@ -7,12 +7,12 @@ public class Sys
 {
     public final int type;
     public final int id;
-    public final float message;
+    public final double message;
     public final String country;
     public final long sunrise;
     public final long sunset;
 
-    public Sys(int type, int id, float message, String country,
+    public Sys(int type, int id, double message, String country,
                long sunrise, long sunset)
     {
         this.type = type;

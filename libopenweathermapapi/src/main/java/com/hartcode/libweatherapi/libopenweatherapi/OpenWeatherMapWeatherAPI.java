@@ -77,7 +77,7 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
     }
 
     @Override
-    public Weather getWeatherByLatLon(float lat, float lon) {
+    public Weather getWeatherByLatLon(double lat, double lon) {
         Weather retval = null;
         try {
             Call<OpenWeather> openWeatherCall =

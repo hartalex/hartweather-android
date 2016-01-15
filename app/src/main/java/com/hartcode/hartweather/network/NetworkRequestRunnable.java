@@ -33,25 +33,25 @@ public class NetworkRequestRunnable implements Runnable{
         {
             if (this.connectivity.isConnectionActive()) {
                 // grab but don't remove an item from the queue.
-                NetworkRequest networkParams = this.outgoingQueue.peek();
-                if (networkParams != null) {
+                NetworkRequest networkRequest = this.outgoingQueue.peek();
+                if (networkRequest != null) {
                     Weather weather = null;
                     List<Weather> weatherList = null;
-                    if (networkParams.lat != Float.MIN_VALUE) {
-                        weather = this.weatherapi.getWeatherByLatLon(networkParams.lat, networkParams.lon);
+                    if (networkRequest.cityId != NetworkRequest.DEFAULT_CITY_ID) {
+                        weather = this.weatherapi.getWeatherByCity(networkRequest.cityId);
                     } else {
-                        weatherList = this.weatherapi.findCityByNameOrZip(networkParams.cityName);
+                        weatherList = this.weatherapi.findCityByNameOrZip(networkRequest.cityName);
                     }
 
                     // After network intensive task, check if the thread is cancelled
                     if (!this.isCanceled) {
                         if (weather != null || weatherList != null) {
                             if (weather != null) {
-                                this.incomingQueue.add(new NetworkResponse(networkParams, weather));
+                                this.incomingQueue.add(new NetworkResponse(networkRequest, weather));
                             }
                             if (weatherList != null)
                             {
-                                this.incomingQueue.add(new NetworkResponse(networkParams, weatherList));
+                                this.incomingQueue.add(new NetworkResponse(networkRequest, weatherList));
                             }
 
                             // if successful remove from the queue.
