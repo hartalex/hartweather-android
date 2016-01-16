@@ -45,13 +45,24 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
 
         this.swipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.swipe_refresh);
         this.swipeRefreshLayout.setOnRefreshListener(this);
-        this.swipeRefreshLayout.post( new Runnable() {
-            public void run() {
+        this.swipeRefreshLayout.post(new Runnable()
+        {
+            public void run()
+            {
                 swipeRefreshLayout.setRefreshing(true);
-            }});
+            }
+        });
 
         return v;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.model.loadFromDB();
+        this.weatherListAdapter.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onRefresh() {

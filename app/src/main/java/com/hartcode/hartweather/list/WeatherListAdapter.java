@@ -54,12 +54,6 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
         return retval;
     }
 
-    /*@Override
-    public void showErrorMessage(String message) {
-        Toast toast = Toast.makeText(this.activity, message, Toast.LENGTH_LONG);
-        toast.show();
-    }*/
-
     @Override
     public void weatherDataChange() {
         this.notifyDataSetChanged();

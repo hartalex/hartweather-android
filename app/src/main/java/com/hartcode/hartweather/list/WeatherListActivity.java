@@ -76,11 +76,10 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_weather_list, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        this.searchMenuItem = menu.findItem(R.id.menu_add);
+        this.searchMenuItem = menu.findItem(R.id.action_add);
         this.searchView = (SearchView) searchMenuItem.getActionView();
         this.searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         this.searchView.setIconifiedByDefault(true);
@@ -160,7 +159,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onMenuItemActionExpand(MenuItem item) {
-        if (item.getItemId() == R.id.menu_add) {
+        if (item.getItemId() == R.id.action_add) {
             // change fab to search button
             this.floatingActionButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_search));
         }
@@ -169,7 +168,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        if (item.getItemId() == R.id.menu_add) {
+        if (item.getItemId() == R.id.action_add) {
             this.floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.fab_add));
         }
         return true;

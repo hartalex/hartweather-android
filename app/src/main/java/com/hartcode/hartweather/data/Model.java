@@ -160,7 +160,7 @@ public class Model {
         return this.searchWeatherList.size();
     }
 
-    private void loadFromDB()
+    public void loadFromDB()
     {
         logger.debug("loading from db.");
         List<WeatherRecord> weatherRecords = WeatherRecord.listAll(WeatherRecord.class);

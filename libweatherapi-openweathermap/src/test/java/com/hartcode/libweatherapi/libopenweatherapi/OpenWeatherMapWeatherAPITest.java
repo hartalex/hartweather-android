@@ -6,6 +6,9 @@ import junit.framework.*;
 
 import org.slf4j.*;
 
+import java.util.List;
+import java.util.Locale;
+
 
 public class OpenWeatherMapWeatherAPITest extends TestCase {
     private static final Logger logger = LoggerFactory.getLogger(OpenWeatherMapWeatherAPITest.class);
@@ -19,7 +22,7 @@ public class OpenWeatherMapWeatherAPITest extends TestCase {
     @Override
     protected void setUp()
     {
-        api = new OpenWeatherMapWeatherAPI(API_KEY,Unit.Fahrenheit);
+        api = new OpenWeatherMapWeatherAPI(API_KEY,Unit.Fahrenheit, Locale.getDefault().getCountry());
     }
 
     public void testGetWeatherByCity() {
@@ -37,7 +40,8 @@ public class OpenWeatherMapWeatherAPITest extends TestCase {
     }
 
     public void testfindCityByNameOrZip() {
-        Weather weather = api.findCityByNameOrZip("53012");
+        List<Weather> weather = api.findCityByNameOrZip("53012");
+
         logger.debug(weather.toString());
         assertNotNull(weather);
     }
@@ -47,7 +51,7 @@ public class OpenWeatherMapWeatherAPITest extends TestCase {
         boolean caught = false;
         try
         {
-            new OpenWeatherMapWeatherAPI(null,Unit.Celcius);
+            new OpenWeatherMapWeatherAPI(null,Unit.Celcius, Locale.getDefault().getCountry());
         }catch(IllegalArgumentException iae)
         {
             caught = true;
@@ -60,7 +64,7 @@ public class OpenWeatherMapWeatherAPITest extends TestCase {
         boolean caught = false;
         try
         {
-            new OpenWeatherMapWeatherAPI(API_KEY,null);
+            new OpenWeatherMapWeatherAPI(API_KEY,null,Locale.getDefault().getCountry());
         }catch(IllegalArgumentException iae)
         {
             caught = true;
