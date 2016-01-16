@@ -7,6 +7,7 @@ import android.os.*;
 import android.preference.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
+import android.view.MenuItem;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
@@ -69,5 +70,16 @@ public class SearchActivity extends AppCompatActivity implements IConnectivity{
         NetworkInfo networkInfo = this.connectivityManager.getActiveNetworkInfo();
         retval = (networkInfo != null && networkInfo.isConnected()) ;
         return retval;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

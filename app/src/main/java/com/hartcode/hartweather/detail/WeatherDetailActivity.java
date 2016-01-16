@@ -58,7 +58,7 @@ public class WeatherDetailActivity extends AppCompatActivity implements DialogIn
         switch (item.getItemId())
         {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                this.finish();
                 return true;
             case R.id.action_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);

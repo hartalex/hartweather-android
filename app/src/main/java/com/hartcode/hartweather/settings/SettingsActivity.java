@@ -85,6 +85,10 @@ public class SettingsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+            NavUtils.navigateUpFromSameTask(this);
+    }
     public static class GeneralPreferenceFragment extends PreferenceFragment
     {
         @Override

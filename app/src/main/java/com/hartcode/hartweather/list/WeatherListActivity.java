@@ -70,7 +70,12 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
             this.searchText = savedInstanceState.getCharSequence("searchText", "");
 
         }
-
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        // initiate network data refresh
         for (int i = 0; i < this.model.weatherSize(); i++) {
             this.networkManager.addRequest(this.model.getItem(i));
         }

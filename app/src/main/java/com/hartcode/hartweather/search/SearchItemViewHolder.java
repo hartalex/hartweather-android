@@ -3,6 +3,7 @@ package com.hartcode.hartweather.search;
 import android.app.*;
 import android.content.*;
 import android.graphics.drawable.*;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
@@ -59,8 +60,6 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
     public void onClick(View v) {
         WeatherRecord weatherRecord = new WeatherRecord(this.weather);
         this.model.addUpdate(weatherRecord);
-        Context context = this.view.getContext();
-        Intent intent = new Intent(this.activity, WeatherListActivity.class);
-        context.startActivity(intent);
+        NavUtils.navigateUpFromSameTask(this.activity);
     }
 }
