@@ -27,4 +27,22 @@
     <string name="default_low">Low: 00</string>
     <string name="default_high">High: 00</string>
     <string name="default_last_update">Last Update: 0000-00-00 00:00:00</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- SettingsActivity -->
+    <string name="pref_header_general">General</string>
+    <string name="pref_temp_unit_key">TempUnit</string>
+    <string name="pref_temp_unit_title">Temperature Unit</string>
+    <string-array name="pref_temp_unit_strings">
+        <item>Fahrenheit</item>
+        <item>Celcius</item>
+    </string-array>
+    <string-array name="pref_temp_unit_values">
+        <item>Fahrenheit</item>
+        <item>Celcius</item>
+    </string-array>
+
+
+
+
 </resources>

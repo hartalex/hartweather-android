@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hartcode.hartweather">
+<manifest package="com.hartcode.hartweather"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name="com.orm.SugarApp"
@@ -14,30 +14,30 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="DATABASE"
-            android:value="hartweather.db" />
+            android:value="hartweather.db"/>
         <meta-data
             android:name="VERSION"
-            android:value="4" />
+            android:value="4"/>
         <meta-data
             android:name="QUERY_LOG"
-            android:value="false" />
+            android:value="false"/>
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.hartcode.hartweather" />
+            android:value="com.hartcode.hartweather"/>
 
         <activity
             android:name=".list.WeatherListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value=".search.SearchActivity" />
+                android:value=".search.SearchActivity"/>
         </activity>
         <activity
             android:name=".search.SearchActivity"
@@ -45,15 +45,15 @@
             android:parentActivityName=".list.WeatherListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hartcode.hartweather.list.WeatherListActivity" />
+                android:value="com.hartcode.hartweather.list.WeatherListActivity"/>
         </activity>
         <activity
             android:name=".detail.WeatherDetailActivity"
@@ -62,7 +62,15 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.hartcode.hartweather.list.WeatherListActivity" />
+                android:value="com.hartcode.hartweather.list.WeatherListActivity"/>
+        </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".list.WeatherListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hartcode.hartweather.list.WeatherListActivity"/>
         </activity>
     </application>
 

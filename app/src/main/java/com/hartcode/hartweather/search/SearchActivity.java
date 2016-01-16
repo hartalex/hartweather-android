@@ -4,9 +4,9 @@ import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.os.*;
+import android.preference.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
-import android.view.Window;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
@@ -35,8 +35,8 @@ public class SearchActivity extends AppCompatActivity implements IConnectivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.model = new Model();
-        SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
-        String temp_unit_string = prefs.getString(getString(R.string.temp_unit_key), Unit.Fahrenheit.toString());
+        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
+        String temp_unit_string = prefs.getString(getString(R.string.pref_temp_unit_key), Unit.Fahrenheit.toString());
         if (temp_unit_string != null)
         {
             this.units = Unit.valueOf(temp_unit_string);

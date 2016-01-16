@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.os.*;
+import android.preference.PreferenceManager;
 import android.support.design.widget.*;
 import android.support.v4.view.*;
 import android.support.v7.app.*;
@@ -12,6 +13,7 @@ import android.view.*;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
+import com.hartcode.hartweather.settings.*;
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.network.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;
@@ -40,8 +42,8 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
 
         this.model = new Model();
-        SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_key), Context.MODE_PRIVATE);
-        String temp_unit_string = prefs.getString(getString(R.string.temp_unit_key), Unit.Fahrenheit.toString());
+        SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
+        String temp_unit_string = prefs.getString(getString(R.string.pref_temp_unit_key), Unit.Fahrenheit.toString());
         if (temp_unit_string != null) {
             this.units = Unit.valueOf(temp_unit_string);
         }
@@ -98,7 +100,8 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            // todo(alex) goto setting activity
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
             return true;
         }
 
