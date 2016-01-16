@@ -2,6 +2,7 @@ package com.hartcode.hartweather.network;
 
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.network.threads.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
