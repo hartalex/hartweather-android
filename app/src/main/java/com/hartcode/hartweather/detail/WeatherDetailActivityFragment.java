@@ -1,6 +1,8 @@
 package com.hartcode.hartweather.detail;
 
+import android.content.res.*;
 import android.graphics.drawable.*;
+import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.os.*;
 import android.support.v4.content.*;
@@ -13,7 +15,7 @@ import java.text.*;
 import java.util.*;
 
 /**
- * A placeholder fragment containing a simple view.
+ *
  */
 public class WeatherDetailActivityFragment extends Fragment {
     private View view;
@@ -42,22 +44,23 @@ public class WeatherDetailActivityFragment extends Fragment {
         return this.view;
     }
 
-    public void setWeather(Weather weather)
+    public void setWeather(@NonNull Weather weather)
     {
+        Resources resources = this.view.getResources();
         this.txtCityName.setText(weather.cityName);
-        String temp = String.format(this.view.getResources().getString(R.string.temp_format), (int) weather.temp, (char) 0x00B0);
+        String temp = String.format(resources.getString(R.string.temp_format), (int) weather.temp, (char) 0x00B0);
         this.txtWeatherTemp.setText(temp);
-        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(), this.view.getContext().getResources().getIdentifier("icon" + weather.icon, "mipmap", this.view.getContext().getPackageName()));
+        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(),resources.getIdentifier(resources.getString(R.string.weather_image_prefix) + weather.icon, resources.getString(R.string.weather_image_resource_type), this.view.getContext().getPackageName()));
         this.imgWeather.setImageDrawable(iconResource);
         this.txtWeatherName.setText(weather.main);
-        temp = String.format(this.view.getResources().getString(R.string.temp_low_format), (int) weather.temp_min, (char) 0x00B0);
+        temp = String.format(resources.getString(R.string.temp_low_format), (int) weather.temp_min, (char) 0x00B0);
         this.txtLowTemp.setText(temp);
-        temp = String.format(this.view.getResources().getString(R.string.temp_high_format), (int) weather.temp_max, (char) 0x00B0);
+        temp = String.format(resources.getString(R.string.temp_high_format), (int) weather.temp_max, (char) 0x00B0);
         this.txtHighTemp.setText(temp);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(weather.lastUpdate);
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
+        SimpleDateFormat sdfDate = new SimpleDateFormat(resources.getString(R.string.simple_date_format), Locale.US);
+        String lastUpdate = String.format(resources.getString(R.string.last_update_format), sdfDate.format(calendar.getTime()));
         this.txtLastUpdate.setText(lastUpdate);
     }
 }

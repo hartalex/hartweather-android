@@ -1,19 +1,25 @@
 package com.hartcode.hartweather.data;
 
+import android.support.annotation.*;
+
 import com.hartcode.hartweather.data.record.*;
+import com.hartcode.hartweather.libhartweather.network.*;
 import com.hartcode.hartweather.libweatherapi.*;
-import org.slf4j.*;
+
 import java.util.*;
 
 /**
  *
  */
-public class Model {
-    private static final Logger logger = LoggerFactory.getLogger(Model.class);
-    private final List<WeatherRecord> favoriteWeatherList;
-    private final List<WeatherRecord> searchWeatherList;
+public class Model implements IModel
+{
     private static final int INDEX_NOT_FOUND = -1;
     private static final int MAX_LIST_SIZE = 10;
+    private static final double LAT_LONG_THRESHOLD = 0.1;
+
+    private final List<WeatherRecord> favoriteWeatherList;
+    private final List<WeatherRecord> searchWeatherList;
+
     private WeatherDataChangeHandler weatherDataChangeHandler;
     private List<IWeatherChangeDataListener> weatherChangeDataListeners;
 
@@ -29,7 +35,7 @@ public class Model {
         this.loadFromDB();
     }
 
-    public void addWeatherChangeDataListener(IWeatherChangeDataListener weatherChangeDataListener)
+    public void addWeatherChangeDataListener(@NonNull IWeatherChangeDataListener weatherChangeDataListener)
     {
         this.weatherChangeDataListeners.add(weatherChangeDataListener);
 
@@ -40,19 +46,14 @@ public class Model {
      * Adds or Updates the weather in the data model.
      * @param weather weather data
      */
-    public boolean addUpdate(WeatherRecord weather)
+    public boolean addUpdate(@NonNull WeatherRecord weather)
     {
-        return this.addUpdate(weather,true);
+        return this.addUpdate(weather, true);
     }
 
-    private boolean addUpdate(WeatherRecord weather, boolean okToSave)
+    private boolean addUpdate(@NonNull WeatherRecord weather, boolean okToSave)
     {
-        logger.debug("addUpdate");
         boolean retval = false;
-        if (weather == null)
-        {
-            throw new IllegalArgumentException("Weather cannot be null.");
-        }
         Calendar cal = Calendar.getInstance();
         weather.lastUpdate = cal.getTimeInMillis();
 
@@ -85,7 +86,7 @@ public class Model {
         return retval;
     }
 
-    public void addSearchData(List<WeatherRecord> weatherRecords)
+    public void addRecordSearchData(@NonNull List<WeatherRecord> weatherRecords)
     {
         this.searchWeatherList.clear();
         this.searchWeatherList.addAll(weatherRecords);
@@ -97,13 +98,9 @@ public class Model {
      *  Returns -1 if not found.
      * @param weather weather data
      */
-    public int getWeatherIndex(WeatherRecord weather)
+    public int getWeatherIndex(@NonNull WeatherRecord weather)
     {
         int retval = INDEX_NOT_FOUND;
-        if (weather == null)
-        {
-            throw new IllegalArgumentException("Weather cannot be null.");
-        }
         int i = 0;
         while(retval == INDEX_NOT_FOUND && i < this.favoriteWeatherList.size())
         {
@@ -111,7 +108,7 @@ public class Model {
             double lat = Math.abs(weatherRecord.lat) - Math.abs(weather.lat);
             double lon = Math.abs(weatherRecord.lon) - Math.abs(weather.lon);
 
-            if (weatherRecord.cityId == weather.cityId || (weatherRecord.cityName.equals(weather.cityName) && lat < 0.1 && lon < 0.1))
+            if (weatherRecord.cityId == weather.cityId || (weatherRecord.cityName.equals(weather.cityName) && lat < LAT_LONG_THRESHOLD && lon < LAT_LONG_THRESHOLD))
             {
                 retval = i;
             }
@@ -125,12 +122,8 @@ public class Model {
      * Returns true if it's found.
      * @param weather weather data
      */
-    public boolean containsWeather(WeatherRecord weather)
+    public boolean containsWeather(@NonNull WeatherRecord weather)
     {
-        if (weather == null)
-        {
-            throw new IllegalArgumentException("Weather cannot be null.");
-        }
         return this.getWeatherIndex(weather) != INDEX_NOT_FOUND;
     }
 
@@ -155,7 +148,6 @@ public class Model {
 
     public void loadFromDB()
     {
-        logger.debug("loading from db.");
         List<WeatherRecord> weatherRecords = WeatherRecord.listAll(WeatherRecord.class);
         this.favoriteWeatherList.clear();
         for(int i = 0; i < weatherRecords.size(); i++)
@@ -179,4 +171,20 @@ public class Model {
         }
     }
 
+    @Override
+    public boolean addUpdate(@NonNull Weather weather)
+    {
+        return this.addUpdate(new WeatherRecord(weather));
+    }
+
+    @Override
+    public void addSearchData(@NonNull List<Weather> weathers)
+    {
+        List<WeatherRecord> weatherRecords = new ArrayList<>();
+        for(Weather weather : weathers)
+        {
+            weatherRecords.add(new WeatherRecord(weather));
+        }
+        addRecordSearchData(weatherRecords);
+    }
 }

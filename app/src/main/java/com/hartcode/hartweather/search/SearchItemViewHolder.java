@@ -1,7 +1,9 @@
 package com.hartcode.hartweather.search;
 
 import android.app.*;
+import android.content.res.*;
 import android.graphics.drawable.*;
+import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.support.v4.content.*;
 import android.support.v7.widget.*;
@@ -22,10 +24,12 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
     private final TextView txtCityName;
     private final TextView txtWeatherTemp;
     private final Activity activity;
+    private final Resources resources;
     private Model model;
     private Weather weather;
 
-    public SearchItemViewHolder(View itemView, Activity activity)
+
+    public SearchItemViewHolder(@NonNull View itemView, @NonNull Activity activity)
     {
         super(itemView);
         this.view = itemView;
@@ -33,15 +37,16 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         this.txtWeatherTemp = (TextView)this.view.findViewById(R.id.txtWeatherTemp);
         this.activity = activity;
         this.view.setOnClickListener(this);
+        this.resources = activity.getResources();
     }
 
-    public void bindData(Model model, int position) {
+    public void bindData(@NonNull Model model, int position) {
         this.model = model;
         this.weather = model.getSearchItem(position);
         this.txtCityName.setText(weather.cityName);
-        String temp = String.format(this.view.getResources().getString(R.string.temp_format), (int) weather.temp, (char) 0x00B0);
+        String temp = String.format(resources.getString(R.string.temp_format), (int) weather.temp, (char) 0x00B0);
         this.txtWeatherTemp.setText(temp);
-        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(), this.view.getContext().getResources().getIdentifier("icon" + weather.icon, "mipmap", this.view.getContext().getPackageName()));
+        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(),resources.getIdentifier(resources.getString(R.string.weather_image_prefix) + weather.icon, resources.getString(R.string.weather_image_resource_type), this.view.getContext().getPackageName()));
         this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
     }
 
@@ -51,7 +56,7 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         boolean added = this.model.addUpdate(weatherRecord);
         if (!added)
         {
-            Toast toast = Toast.makeText(v.getContext(),"Location maximum exceeded.",Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(v.getContext(),resources.getString(R.string.location_max_exceeded),Toast.LENGTH_SHORT);
             toast.show();
         }
         NavUtils.navigateUpFromSameTask(this.activity);

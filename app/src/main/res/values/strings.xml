@@ -1,16 +1,20 @@
 <resources>
     <string name="app_name">Hart Weather</string>
 
-    <!-- WeatherListActivity Menu Items -->
-    <string name="action_settings">Settings</string>
+    <!-- WeatherListActivity -->
     <string name="menu_add">Add Location</string>
+    <string name="saved_instance_is_search_shown_key">isSearchShown</string>
+    <string name="saved_instance_search_text_key">searchText</string>
+    <string name="default_saved_instance_search_text"></string>
 
     <!-- SearchActivity -->
     <string name="cityzip_search_label">CityZip Search</string>
     <string name="cityzip_search_hint">Search city or Zip</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="location_max_exceeded">Location maximum exceeded.</string>
 
     <!-- WeatherDetailActivity -->
+    <string name="intent_weather_index_key">WeatherIndex</string>
     <string name="title_activity_weather_detail">Current Weather</string>
 
     <!-- Defaults for weather layouts -->
@@ -20,9 +24,9 @@
     <string name="default_low">Low: 00&#8457;</string>
     <string name="default_high">High: 00&#8457;</string>
     <string name="default_last_update">Last Update: 0000&#8211;00&#8211;00 00:00:00</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- SettingsActivity -->
+    <string name="action_settings">Settings</string>
     <string name="pref_header_general">General</string>
     <string name="pref_temp_unit_key">TempUnit</string>
     <string name="pref_temp_unit_title">Temperature Unit</string>
@@ -35,11 +39,30 @@
         <item>Celsius</item>
     </string-array>
 
+    <!-- Weather Images -->
     <string name="weather_image_description">Icon showing current weather.</string>
+    <string name="weather_image_prefix">icon</string>
+    <string name="weather_image_resource_type">mipmap</string>
+
+    <!-- Data Format Strings -->
     <string name="temp_format">%1$d%2$c</string>
     <string name="temp_low_format">Low: %1$d%2$c</string>
     <string name="temp_high_format">High: %1$d%2$c</string>
+    <string name="simple_date_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="last_update_format">Last Update: %1$s</string>
+1
+    <!-- Delete Dialog -->
+    <string name="dialog_delete_title">Delete</string>
+    <string name="dialog_delete_question">Are you sure?</string>
+    <string name="dialog_delete_positive">Yes</string>
+    <string name="dialog_delete_negative">No</string>
 
+    <!-- Network Handler -->
+    <string name="network_is_empty_key">isEmpty</string>
+    <string name="network_error_key">error</string>
+
+    <!-- It is very bad to store this here, however since the api doesn't use TLS it is trivial to
+         for bad guys to find this anyway. -->
     <string name="openweathermap_apikey">34b3e14b5a4abd6edcc4c2e4051a6cab</string>
 
 </resources>

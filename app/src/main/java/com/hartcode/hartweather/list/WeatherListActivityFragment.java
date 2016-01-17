@@ -1,5 +1,6 @@
 package com.hartcode.hartweather.list;
 
+import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.os.*;
 import android.support.v4.widget.*;
@@ -9,24 +10,24 @@ import android.widget.*;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.network.*;
+import com.hartcode.hartweather.libhartweather.network.*;
 
 /**
- * A placeholder fragment containing a simple view.
+ *
  */
-public class WeatherListActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, INetworkView {
+public class WeatherListActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, INetworkView
+{
 
     private Model model;
     private WeatherListAdapter weatherListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NetworkManager networkManager;
     private Boolean isOkToCancelRefresh = false;
+
     public void setData(Model model, NetworkManager networkManager) {
         this.model = model;
         this.weatherListAdapter.setModel(this.model);
         this.networkManager = networkManager;
-        this.networkManager.addNetworkView(this);
-
     }
 
     @Override
@@ -85,7 +86,7 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
     }
 
     @Override
-    public void onNetworkError(String error)
+    public void onNetworkError(@NonNull String error)
     {
         Toast toast = Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT);
         toast.show();

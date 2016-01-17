@@ -1,5 +1,6 @@
 package com.hartcode.hartweather.search;
 
+import android.support.annotation.*;
 import android.support.v4.app.*;
 import android.os.*;
 import android.support.v4.widget.*;
@@ -9,22 +10,22 @@ import android.widget.*;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.network.*;
+import com.hartcode.hartweather.libhartweather.network.*;
 
 /**
- * A placeholder fragment containing a simple view.
+ *
  */
-public class SearchActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, INetworkView {
+public class SearchActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, INetworkView
+{
     private Model model;
     private SearchListAdapter searchListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NetworkManager networkManager;
 
-    public void setData(Model model, NetworkManager networkManager) {
+    public void setData(@NonNull Model model, @NonNull NetworkManager networkManager) {
         this.model = model;
         this.searchListAdapter.setModel(this.model);
         this.networkManager = networkManager;
-        this.networkManager.addNetworkView(this);
     }
 
     @Override
@@ -65,7 +66,7 @@ public class SearchActivityFragment extends Fragment implements SwipeRefreshLayo
     }
 
     @Override
-    public void onNetworkError(String error)
+    public void onNetworkError(@NonNull String error)
     {
         Toast toast = Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT);
         toast.show();

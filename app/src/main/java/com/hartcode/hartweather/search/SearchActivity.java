@@ -12,14 +12,17 @@ import android.view.*;
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.libhartweather.network.*;
 import com.hartcode.hartweather.network.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;
 import java.util.*;
 
-public class SearchActivity extends AppCompatActivity implements IConnectivity{
+public class SearchActivity extends AppCompatActivity implements IConnectivity, INetworkView
+{
     private Unit units = Unit.Fahrenheit;
     private NetworkManager networkManager;
     private ConnectivityManager connectivityManager;
+    private NetworkViewHandler networkDataChangeHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +48,15 @@ public class SearchActivity extends AppCompatActivity implements IConnectivity{
 
         String api_key = getString(R.string.openweathermap_apikey);
         IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(api_key, this.units, Locale.getDefault().getCountry());
-        this.networkManager = new NetworkManager(weatherapi, model, this);
+
+        List<INetworkView> networkViews = new ArrayList<>();
+        this.networkDataChangeHandler = new NetworkViewHandler(networkViews, getResources());
+
+        this.networkManager = new NetworkManager(weatherapi, model, this, this);
 
         SearchActivityFragment searchActivityFragment = (SearchActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         searchActivityFragment.setData(model, this.networkManager);
+        networkViews.add(searchActivityFragment);
 
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
             String name = getIntent().getStringExtra(SearchManager.QUERY);
@@ -79,4 +87,28 @@ public class SearchActivity extends AppCompatActivity implements IConnectivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onNetworkQueueChange(boolean isEmpty)
+    {
+        Message msg = new Message();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(getString(R.string.network_is_empty_key),isEmpty);
+        msg.setData(bundle);
+        msg.what = 0;
+        this.networkDataChangeHandler.sendMessage(msg);
+    }
+
+    @Override
+    public void onNetworkError(String error)
+    {
+        Message msg = new Message();
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.network_error_key),error);
+        msg.setData(bundle);
+        msg.what = 1;
+        this.networkDataChangeHandler.sendMessage(msg);
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package com.hartcode.hartweather.data.record;
 
+import android.support.annotation.*;
+
 import com.hartcode.hartweather.libweatherapi.*;
 import com.orm.*;
 import com.orm.dsl.*;
@@ -48,12 +50,12 @@ public class WeatherRecord extends SugarRecord {
         this.lastUpdate = lastUpdate;
     }
 
-    public WeatherRecord(Weather weather)
+    public WeatherRecord(@NonNull Weather weather)
     {
         this.updateFromWeather(weather);
     }
 
-    public void updateFromWeather(Weather weather)
+    public void updateFromWeather(@NonNull Weather weather)
     {
         this.id = weather.id;
         this.cityId = weather.cityId;
@@ -71,7 +73,7 @@ public class WeatherRecord extends SugarRecord {
         this.lastUpdate = weather.lastUpdate;
     }
 
-    public void updateFromWeatherRecord(WeatherRecord weather)
+    public void updateFromWeatherRecord(@NonNull WeatherRecord weather)
     {
         this.id = weather.id;
         this.cityId = weather.cityId;

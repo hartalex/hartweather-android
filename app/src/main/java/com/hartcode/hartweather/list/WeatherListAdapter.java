@@ -1,6 +1,7 @@
 package com.hartcode.hartweather.list;
 
 import android.app.*;
+import android.support.annotation.*;
 import android.support.v7.widget.*;
 import android.view.*;
 
@@ -15,7 +16,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
     private Model model;
     private Activity activity;
 
-    public WeatherListAdapter(Model model, Activity activity)
+    public WeatherListAdapter(@NonNull Model model, @NonNull Activity activity)
     {
         if (this.model != null)
         {
@@ -24,7 +25,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
         this.activity = activity;
     }
 
-    public void setModel(Model model)
+    public void setModel(@NonNull Model model)
     {
         this.model = model;
         this.model.addWeatherChangeDataListener(this);

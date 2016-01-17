@@ -34,10 +34,9 @@ public class WeatherDetailActivity extends AppCompatActivity implements DialogIn
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            this.weatherIndex = extras.getInt("WeatherIndex");
+            this.weatherIndex = extras.getInt(getString(R.string.intent_weather_index_key));
             Weather weather = this.model.getItem(this.weatherIndex);
             fragment.setWeather(weather);
-
         }
     }
 
@@ -56,15 +55,19 @@ public class WeatherDetailActivity extends AppCompatActivity implements DialogIn
                 return true;
             case R.id.action_delete:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Delete");
+                builder.setTitle(getString(R.string.dialog_delete_title));
                 builder.setIcon(android.R.drawable.ic_menu_delete);
-                builder.setMessage("Are you sure?").setPositiveButton("Yes", this)
-                        .setNegativeButton("No", this).show();
+                builder.setMessage(getString(R.string.dialog_delete_question))
+                        .setPositiveButton(getString(R.string.dialog_delete_positive), this)
+                        .setNegativeButton(getString(R.string.dialog_delete_negative), this).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Delete Dialog button is clicked
+     */
     @Override
     public void onClick(DialogInterface dialog, int which) {
         if (which == DialogInterface.BUTTON_POSITIVE) {
