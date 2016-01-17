@@ -21,7 +21,7 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
     private WeatherListAdapter weatherListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NetworkManager networkManager;
-
+    private Boolean isOkToCancelRefresh = false;
     public void setData(Model model, NetworkManager networkManager) {
         this.model = model;
         this.weatherListAdapter.setModel(this.model);
@@ -49,6 +49,7 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
             public void run()
             {
                 swipeRefreshLayout.setRefreshing(true);
+                isOkToCancelRefresh = true;
             }
         });
 
@@ -60,12 +61,14 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
         for (int i = 0; i < this.model.weatherSize(); i++) {
             this.networkManager.addRequest(this.model.getItem(i));
         }
+        isOkToCancelRefresh = true;
     }
 
     @Override
     public void onNetworkQueueChange(boolean isEmpty) {
-        if (isEmpty) {
+        if (isEmpty && isOkToCancelRefresh && this.swipeRefreshLayout.isRefreshing()) {
             this.swipeRefreshLayout.setRefreshing(false);
+            this.isOkToCancelRefresh = false;
         }
     }
 

@@ -25,7 +25,6 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
     private final View view;
     private final TextView txtCityName;
     private final TextView txtWeatherTemp;
-    private final TextView txtLastUpdate;
     private final Activity activity;
     private Model model;
     private Weather weather;
@@ -36,7 +35,6 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         this.view = itemView;
         this.txtCityName = (TextView)this.view.findViewById(R.id.txtCityName);
         this.txtWeatherTemp = (TextView)this.view.findViewById(R.id.txtWeatherTemp);
-        this.txtLastUpdate = (TextView)this.view.findViewById(R.id.txtLastUpdate);
         this.activity = activity;
         this.view.setOnClickListener(this);
     }
@@ -49,11 +47,6 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         this.txtWeatherTemp.setText(temp + (char)0x00B0);
         Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
         this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(weather.lastUpdate);
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
-        this.txtLastUpdate.setText(lastUpdate);
     }
 
     @Override

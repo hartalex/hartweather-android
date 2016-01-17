@@ -1,55 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/weather_list_item"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    card_view:cardCornerRadius="10dp"
-    card_view:cardElevation="10dp"
-    card_view:cardUseCompatPadding="true"
-    android:fadeScrollbars="true"
-    android:transitionName="@string/transition_weather_card">
-
-    <LinearLayout
+                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/weather_list_item"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    card_view:cardCornerRadius="10dp"
+                                    card_view:cardElevation="5dp"
+                                    card_view:cardUseCompatPadding="true"
+                                    android:fadeScrollbars="true">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/txtCityName"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center_vertical|start"
+            android:layout_alignParentTop="true"
             android:text="@string/default_city"
-            android:drawableLeft="@android:drawable/ic_menu_add"
-            android:paddingLeft="10sp"
-            android:textSize="30sp" />
-
+            android:padding="10sp"
+            android:textSize="30sp"
+            android:drawableLeft="@android:drawable/ic_menu_add"/>
 
         <TextView
             android:id="@+id/txtWeatherTemp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center_vertical|center"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical|end"
             android:text="@string/default_temp"
             android:textSize="40sp"
-            android:drawableLeft="@mipmap/icon01d"/>
-    </LinearLayout>
-        <TextView
-            android:id="@+id/txtLastUpdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:gravity="center_vertical|end"
+            android:paddingEnd="10sp"
             android:paddingRight="10sp"
-            android:text="@string/default_last_update"
-            android:textSize="5sp" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@mipmap/icon01d"/>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
+
