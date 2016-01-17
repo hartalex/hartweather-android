@@ -75,12 +75,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     public void onResume()
     {
         super.onResume();
-        this.model.loadFromDB();
 
-        // initiate network data refresh
-        for (int i = 0; i < this.model.weatherSize(); i++) {
-            this.networkManager.addRequest(this.model.getItem(i));
-        }
     }
 
     @Override

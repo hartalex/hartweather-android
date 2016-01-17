@@ -29,7 +29,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
     {
         this.model = model;
         this.model.addWeatherChangeDataListener(this);
-        this.notifyDataSetChanged();
+        this.weatherDataChange();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class WeatherListAdapter extends RecyclerView.Adapter<WeatherItemViewHold
 
     @Override
     public void weatherDataChange() {
-        this.notifyDataSetChanged();
+            this.notifyDataSetChanged();
     }
 
 }

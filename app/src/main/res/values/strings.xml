@@ -17,9 +17,6 @@
     <!-- WeatherDetailActivity -->
     <string name="title_activity_weather_detail">Current Weather</string>
 
-    <!-- WeatherListActivity to WeatherDetailActivity Transitions -->
-    <string name="transition_weather_card">TransitionWeatherCard</string>
-
     <!-- Defaults for weather layouts -->
     <string name="default_temp">75</string>
     <string name="default_city">Unknown</string>

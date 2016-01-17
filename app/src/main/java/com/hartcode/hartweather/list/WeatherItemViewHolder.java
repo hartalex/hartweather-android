@@ -38,12 +38,13 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder  implements V
     {
         super(itemView);
         this.view = itemView;
+        this.activity = activity;
         this.txtCityName = (TextView)this.view.findViewById(R.id.txtCityName);
         this.txtWeatherTemp = (TextView)this.view.findViewById(R.id.txtWeatherTemp);
         this.txtLastUpdate = (TextView)this.view.findViewById(R.id.txtLastUpdate);
-        this.activity = activity;
         this.view.setOnClickListener(this);
         this.view.setOnLongClickListener(this);
+
     }
 
     public void bindData(Model model, int position) {
@@ -64,20 +65,9 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder  implements V
 
     @Override
     public void onClick(View v) {
-        Context context = this.view.getContext();
         Intent intent = new Intent(this.activity, WeatherDetailActivity.class);
         intent.putExtra("WeatherIndex",this.weatherIndex);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptionsCompat options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(this.activity,
-                            Pair.create(this.view, context.getString(R.string.transition_weather_card))
-                    );
-            context.startActivity(intent, options.toBundle());
-        }else
-        {
-            context.startActivity(intent);
-        }
+        this.view.getContext().startActivity(intent);
     }
 
     @Override

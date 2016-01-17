@@ -35,7 +35,6 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_weather_list, container, false);
 
-
         this.weatherListAdapter = new WeatherListAdapter(this.model,this.getActivity());
 
         this.recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
@@ -44,6 +43,12 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
 
         this.swipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.swipe_refresh);
         this.swipeRefreshLayout.setOnRefreshListener(this);
+        return v;
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
         this.swipeRefreshLayout.post(new Runnable()
         {
             public void run()
@@ -52,8 +57,16 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
                 isOkToCancelRefresh = true;
             }
         });
+        this.model.loadFromDB();
 
-        return v;
+        // initiate network data refresh
+        if (this.networkManager != null)
+        {
+            for (int i = 0; i < this.model.weatherSize(); i++)
+            {
+                this.networkManager.addRequest(this.model.getItem(i));
+            }
+        }
     }
 
     @Override
