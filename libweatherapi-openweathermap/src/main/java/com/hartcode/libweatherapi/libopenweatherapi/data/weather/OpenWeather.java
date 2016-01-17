@@ -14,7 +14,6 @@ public class OpenWeather {
     public final Rain rain;
     public final Snow snow;
     public final long dt;
- //   public final Date date;
     public final Sys sys;
     public final int id;
     public final String name;

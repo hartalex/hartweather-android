@@ -1,18 +1,13 @@
 package com.hartcode.hartweather.settings;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-
-import com.hartcode.hartweather.R;
+import android.content.*;
+import android.os.*;
+import android.preference.*;
+import android.support.v4.app.*;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.*;
+import android.view.*;
+import com.hartcode.hartweather.*;
 
 public class SettingsActivity extends AppCompatActivity
 {
@@ -20,7 +15,11 @@ public class SettingsActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     /**

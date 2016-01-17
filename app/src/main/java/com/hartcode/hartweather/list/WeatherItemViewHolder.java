@@ -1,22 +1,18 @@
 package com.hartcode.hartweather.list;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v4.app.*;
-import android.support.v4.util.Pair;
+import android.app.*;
+import android.content.*;
+import android.graphics.drawable.*;
+import android.support.v4.content.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
 
-import com.hartcode.hartweather.R;
-import com.hartcode.hartweather.data.Model;
-import com.hartcode.hartweather.detail.WeatherDetailActivity;
-import com.hartcode.hartweather.libweatherapi.Weather;
+import com.hartcode.hartweather.*;
+import com.hartcode.hartweather.data.*;
+import com.hartcode.hartweather.detail.*;
+import com.hartcode.hartweather.libweatherapi.*;
 
 import java.text.*;
 import java.util.*;
@@ -52,9 +48,10 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder  implements V
         this.model = model;
         Weather weather = model.getItem(position);
         this.txtCityName.setText(weather.cityName);
-        String temp = String.valueOf((int)weather.temp);
-        this.txtWeatherTemp.setText(temp + (char)0x00B0);
-        Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
+
+        String temp = String.format(this.view.getResources().getString(R.string.temp_format),(int)weather.temp,(char)0x00B0);
+        this.txtWeatherTemp.setText(temp);
+        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(), this.view.getContext().getResources().getIdentifier("icon" + weather.icon, "mipmap", this.view.getContext().getPackageName()));
         this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(weather.lastUpdate);

@@ -2,8 +2,7 @@ package com.hartcode.hartweather.network;
 
 import com.hartcode.hartweather.libweatherapi.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *

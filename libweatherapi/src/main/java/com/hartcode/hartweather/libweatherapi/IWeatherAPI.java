@@ -1,7 +1,7 @@
 package com.hartcode.hartweather.libweatherapi;
 
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  *

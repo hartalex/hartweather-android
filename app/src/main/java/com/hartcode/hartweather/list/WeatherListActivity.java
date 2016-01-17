@@ -4,8 +4,9 @@ import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.os.*;
-import android.preference.PreferenceManager;
+import android.preference.*;
 import android.support.design.widget.*;
+import android.support.v4.content.*;
 import android.support.v4.view.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
@@ -18,17 +19,11 @@ import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.network.*;
 import com.hartcode.libweatherapi.libopenweatherapi.*;
 
-import org.slf4j.*;
-
 import java.util.*;
 
 public class WeatherListActivity extends AppCompatActivity implements View.OnClickListener, MenuItemCompat.OnActionExpandListener, IConnectivity {
-    private static final Logger logger = LoggerFactory.getLogger(WeatherListActivity.class);
-
-    private String api_key = "34b3e14b5a4abd6edcc4c2e4051a6cab";
     private Unit units = Unit.Fahrenheit;
     private NetworkManager networkManager;
-    private Model model;
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private ConnectivityManager connectivityManager;
@@ -41,7 +36,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.model = new Model();
+        Model model = new Model();
         SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(this);
         String temp_unit_string = prefs.getString(getString(R.string.pref_temp_unit_key), Unit.Fahrenheit.toString());
         if (temp_unit_string != null) {
@@ -51,8 +46,8 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
         this.connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-
-        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(this.api_key, this.units, Locale.getDefault().getCountry());
+        String api_key = getString(R.string.openweathermap_apikey);
+        IWeatherAPI weatherapi = new OpenWeatherMapWeatherAPI(api_key, this.units, Locale.getDefault().getCountry());
         this.networkManager = new NetworkManager(weatherapi, model, this);
 
         setContentView(R.layout.activity_weather_list);
@@ -120,7 +115,6 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     /**
      * Handles the floating action bar click
      *
-     * @param v
      */
     @Override
     public void onClick(View v) {
@@ -146,11 +140,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        if (this.searchMenuItem != null) {
-            this.isSearchShown = this.searchMenuItem.isActionViewExpanded();
-        } else {
-            this.isSearchShown = false;
-        }
+        this.isSearchShown = this.searchMenuItem != null && this.searchMenuItem.isActionViewExpanded();
 
         if (this.searchView != null) {
             this.searchText = this.searchView.getQuery();
@@ -166,7 +156,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     public boolean onMenuItemActionExpand(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
             // change fab to search button
-            this.floatingActionButton.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_search));
+            this.floatingActionButton.setImageDrawable(ContextCompat.getDrawable(this, android.R.drawable.ic_menu_search));
         }
         return true;
     }
@@ -174,7 +164,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
-            this.floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.fab_add));
+            this.floatingActionButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.fab_add));
         }
         return true;
     }

@@ -1,9 +1,9 @@
 package com.hartcode.hartweather.search;
 
 import android.app.*;
-import android.content.*;
 import android.graphics.drawable.*;
-import android.support.v4.app.NavUtils;
+import android.support.v4.app.*;
+import android.support.v4.content.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
@@ -12,10 +12,6 @@ import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.data.record.*;
 import com.hartcode.hartweather.libweatherapi.*;
-import com.hartcode.hartweather.list.*;
-
-import java.text.*;
-import java.util.*;
 
 /**
  *
@@ -43,9 +39,9 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         this.model = model;
         this.weather = model.getSearchItem(position);
         this.txtCityName.setText(weather.cityName);
-        String temp = String.valueOf((int)weather.temp);
-        this.txtWeatherTemp.setText(temp + (char)0x00B0);
-        Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
+        String temp = String.format(this.view.getResources().getString(R.string.temp_format), (int) weather.temp, (char) 0x00B0);
+        this.txtWeatherTemp.setText(temp);
+        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(), this.view.getContext().getResources().getIdentifier("icon" + weather.icon, "mipmap", this.view.getContext().getPackageName()));
         this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
     }
 

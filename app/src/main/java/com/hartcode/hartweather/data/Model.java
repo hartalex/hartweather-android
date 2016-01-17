@@ -1,11 +1,8 @@
 package com.hartcode.hartweather.data;
 
 import com.hartcode.hartweather.data.record.*;
-import com.hartcode.hartweather.list.*;
 import com.hartcode.hartweather.libweatherapi.*;
-
 import org.slf4j.*;
-
 import java.util.*;
 
 /**

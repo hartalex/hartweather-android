@@ -1,8 +1,9 @@
 package com.hartcode.hartweather.detail;
 
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
+import android.graphics.drawable.*;
+import android.support.v4.app.*;
+import android.os.*;
+import android.support.v4.content.*;
 import android.view.*;
 import android.widget.*;
 
@@ -44,15 +45,15 @@ public class WeatherDetailActivityFragment extends Fragment {
     public void setWeather(Weather weather)
     {
         this.txtCityName.setText(weather.cityName);
-        String temp = String.valueOf((int)weather.temp);
-        this.txtWeatherTemp.setText(temp + (char)0x00B0);
-        Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
+        String temp = String.format(this.view.getResources().getString(R.string.temp_format), (int) weather.temp, (char) 0x00B0);
+        this.txtWeatherTemp.setText(temp);
+        Drawable iconResource = ContextCompat.getDrawable(this.view.getContext(), this.view.getContext().getResources().getIdentifier("icon" + weather.icon, "mipmap", this.view.getContext().getPackageName()));
         this.imgWeather.setImageDrawable(iconResource);
         this.txtWeatherName.setText(weather.main);
-        temp = String.valueOf((int)weather.temp_min);
-        this.txtLowTemp.setText("Low: " + temp + (char)0x00B0);
-        temp = String.valueOf((int)weather.temp_max);
-        this.txtHighTemp.setText("High: " + temp + (char)0x00B0);
+        temp = String.format(this.view.getResources().getString(R.string.temp_low_format), (int) weather.temp_min, (char) 0x00B0);
+        this.txtLowTemp.setText(temp);
+        temp = String.format(this.view.getResources().getString(R.string.temp_high_format), (int) weather.temp_max, (char) 0x00B0);
+        this.txtHighTemp.setText(temp);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(weather.lastUpdate);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);

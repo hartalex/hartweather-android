@@ -8,9 +8,7 @@ import com.hartcode.libweatherapi.libopenweatherapi.data.weather.*;
 import org.slf4j.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.*;
 import retrofit2.*;
 
 

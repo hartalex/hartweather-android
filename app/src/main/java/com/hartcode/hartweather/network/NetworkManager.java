@@ -1,18 +1,15 @@
 package com.hartcode.hartweather.network;
 
-import android.os.Bundle;
-import android.os.Message;
+import android.os.*;
 
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.network.threads.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.*;
+import java.util.concurrent.*;
 
 /**
  *
@@ -21,28 +18,22 @@ public class NetworkManager implements INetworkView{
     private static final Logger logger = LoggerFactory.getLogger(NetworkManager.class);
     private final LinkedBlockingQueue<NetworkRequest> outgoingQueue;
     private final LinkedBlockingQueue<NetworkResponse> incomingQueue;
-    private final Model model;
     private final Thread networkRequestThread;
     private final NetworkRequestRunnable networkRequestRunnable;
     private final Thread networkResponseThread;
     private final NetworkResponseRunnable networkResponseRunnable;
-    private final IWeatherAPI weatherapi;
-    private final IConnectivity connectivity;
     private final List<INetworkView> networkViews;
     private final NetworkViewHandler networkDataChangeHandler;
 
     public NetworkManager(IWeatherAPI weatherapi, Model model, IConnectivity connectivity) {
 
-        this.weatherapi = weatherapi;
         this.outgoingQueue = new LinkedBlockingQueue<>();
         this.incomingQueue = new LinkedBlockingQueue<>();
-        this.model = model;
-        this.connectivity = connectivity;
         this.networkViews = new ArrayList<>();
         this.networkDataChangeHandler = new NetworkViewHandler(this.networkViews);
 
-        this.networkRequestRunnable = new NetworkRequestRunnable(this.outgoingQueue, this.incomingQueue, this.weatherapi, this.connectivity, this);
-        this.networkResponseRunnable = new NetworkResponseRunnable(this.incomingQueue, this.model, this);
+        this.networkRequestRunnable = new NetworkRequestRunnable(this.outgoingQueue, this.incomingQueue, weatherapi, connectivity, this);
+        this.networkResponseRunnable = new NetworkResponseRunnable(this.incomingQueue, model, this);
 
         this.networkRequestThread = new Thread(this.networkRequestRunnable);
         this.networkRequestThread.start();
@@ -108,26 +99,22 @@ public class NetworkManager implements INetworkView{
     @Override
     public void onNetworkQueueChange(boolean isEmpty)
     {
-        if (this.networkDataChangeHandler != null) {
             Message msg = new Message();
             Bundle bundle = new Bundle();
             bundle.putBoolean("isEmpty",isEmpty);
             msg.setData(bundle);
             msg.what = 0;
             this.networkDataChangeHandler.sendMessage(msg);
-        }
     }
 
     @Override
     public void onNetworkError(String error)
     {
-        if (this.networkDataChangeHandler != null) {
             Message msg = new Message();
             Bundle bundle = new Bundle();
             bundle.putString("error",error);
             msg.setData(bundle);
             msg.what = 1;
             this.networkDataChangeHandler.sendMessage(msg);
-        }
     }
 }

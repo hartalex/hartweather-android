@@ -1,11 +1,7 @@
 package com.hartcode.hartweather.network;
 
-import android.os.Handler;
-import android.os.Message;
-
-import com.hartcode.hartweather.data.IWeatherChangeDataListener;
-
-import java.util.List;
+import android.os.*;
+import java.util.*;
 
 /**
  *

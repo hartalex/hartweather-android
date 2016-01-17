@@ -1,7 +1,8 @@
 package com.hartcode.hartweather.data.record;
+
 import com.hartcode.hartweather.libweatherapi.*;
 import com.orm.*;
-import com.orm.dsl.Unique;
+import com.orm.dsl.*;
 
 /**
  *

@@ -1,22 +1,13 @@
 package com.hartcode.hartweather.detail;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import com.hartcode.hartweather.R;
+import android.content.*;
+import android.os.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.view.*;
+import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.libweatherapi.Weather;
-import com.hartcode.hartweather.list.*;
+import com.hartcode.hartweather.libweatherapi.*;
 
 public class WeatherDetailActivity extends AppCompatActivity implements DialogInterface.OnClickListener {
 
@@ -30,8 +21,11 @@ public class WeatherDetailActivity extends AppCompatActivity implements DialogIn
         setContentView(R.layout.activity_weather_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         WeatherDetailActivityFragment fragment = (WeatherDetailActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 

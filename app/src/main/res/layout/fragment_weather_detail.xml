@@ -30,7 +30,7 @@
             android:layout_width="100sp"
             android:layout_height="100sp"
             android:layout_below="@id/txtCityName"
-
+            android:contentDescription="@string/weather_image_description"
             android:gravity="center_vertical"
             android:src="@mipmap/icon01n"/>
 
@@ -53,7 +53,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/txtCityName"
-            android:layout_weight="1"
             android:gravity="center_vertical|center"
             android:text="@string/default_temp"
             android:textSize="75sp"/>
@@ -77,8 +76,11 @@
             android:layout_alignBottom="@+id/txtWeatherName"
             android:layout_below="@id/txtWeatherTemp"
             android:layout_toLeftOf="@+id/txtHighTemp"
+            android:layout_toStartOf="@+id/txtHighTemp"
             android:paddingRight="20sp"
             android:paddingEnd="20sp"
+            android:paddingLeft="20sp"
+            android:paddingStart="20sp"
             android:gravity="center_vertical|center"
             android:text="@string/default_low"
             android:textSize="20sp"

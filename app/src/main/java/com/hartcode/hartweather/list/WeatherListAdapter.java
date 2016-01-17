@@ -1,9 +1,8 @@
 package com.hartcode.hartweather.list;
 
-import android.app.Activity;
+import android.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.Toast;
 
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.*;

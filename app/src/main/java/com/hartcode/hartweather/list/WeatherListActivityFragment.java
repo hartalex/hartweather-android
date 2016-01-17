@@ -2,7 +2,7 @@ package com.hartcode.hartweather.list;
 
 import android.support.v4.app.*;
 import android.os.*;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
@@ -16,7 +16,6 @@ import com.hartcode.hartweather.network.*;
  */
 public class WeatherListActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, INetworkView {
 
-    private RecyclerView recyclerView = null;
     private Model model;
     private WeatherListAdapter weatherListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -37,9 +36,9 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
 
         this.weatherListAdapter = new WeatherListAdapter(this.model,this.getActivity());
 
-        this.recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.recyclerView.setAdapter(weatherListAdapter);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(weatherListAdapter);
 
         this.swipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.swipe_refresh);
         this.swipeRefreshLayout.setOnRefreshListener(this);

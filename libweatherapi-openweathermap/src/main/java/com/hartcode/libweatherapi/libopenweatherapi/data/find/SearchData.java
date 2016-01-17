@@ -1,7 +1,7 @@
 package com.hartcode.libweatherapi.libopenweatherapi.data.find;
 
 import com.hartcode.libweatherapi.libopenweatherapi.data.weather.*;
-import java.util.List;
+import java.util.*;
 
 /**
  *

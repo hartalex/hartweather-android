@@ -1,9 +1,7 @@
 package com.hartcode.hartweather.data;
 
-import android.os.Handler;
-import android.os.Message;
-
-import java.util.List;
+import android.os.*;
+import java.util.*;
 
 /**
  *
