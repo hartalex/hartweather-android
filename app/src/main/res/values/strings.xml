@@ -32,11 +32,11 @@
     <string name="pref_temp_unit_title">Temperature Unit</string>
     <string-array name="pref_temp_unit_strings">
         <item>Fahrenheit</item>
-        <item>Celcius</item>
+        <item>Celsius</item>
     </string-array>
     <string-array name="pref_temp_unit_values">
         <item>Fahrenheit</item>
-        <item>Celcius</item>
+        <item>Celsius</item>
     </string-array>
 
 

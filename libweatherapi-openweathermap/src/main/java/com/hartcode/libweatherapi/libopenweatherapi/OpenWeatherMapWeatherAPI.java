@@ -52,7 +52,7 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI
     {
         switch (unit)
         {
-            case Celcius:
+            case Celsius:
                 this.units = "metric";
                 break;
             case Fahrenheit:
