@@ -56,7 +56,7 @@ public class WeatherItemViewHolder extends RecyclerView.ViewHolder  implements V
         Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
         this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(weather.lastUpdate*1000);
+        calendar.setTimeInMillis(weather.lastUpdate);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
         this.txtLastUpdate.setText(lastUpdate);

@@ -54,7 +54,7 @@ public class WeatherDetailActivityFragment extends Fragment {
         temp = String.valueOf((int)weather.temp_max);
         this.txtHighTemp.setText("High: " + temp + (char)0x00B0);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(weather.lastUpdate*1000);
+        calendar.setTimeInMillis(weather.lastUpdate);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
         this.txtLastUpdate.setText(lastUpdate);

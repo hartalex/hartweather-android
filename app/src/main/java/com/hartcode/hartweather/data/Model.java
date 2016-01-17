@@ -56,6 +56,8 @@ public class Model {
         {
             throw new IllegalArgumentException("Weather cannot be null.");
         }
+        Calendar cal = Calendar.getInstance();
+        weather.lastUpdate = cal.getTimeInMillis();
 
         if (this.containsWeather(weather))
         {
@@ -71,13 +73,7 @@ public class Model {
             retval = true;
         }else
         {
-            if (this.favoriteWeatherList.size() >= MAX_LIST_SIZE)
-            {
-                // Favorites is Full
-                this.sendShowErrorMessage("Too Many Favorites Already.");
-
-            }
-            else
+            if (this.favoriteWeatherList.size() < MAX_LIST_SIZE)
             {
                 // Add new Weather to list
                 this.favoriteWeatherList.add(weather);
@@ -177,11 +173,6 @@ public class Model {
         WeatherRecord weatherRecord = this.favoriteWeatherList.remove(index);
         weatherRecord.delete();
         this.sendWeatherDataChange();
-    }
-    private void sendShowErrorMessage(String Message) {
-        if (this.weatherDataChangeHandler != null) {
-            //this.weatherDataChangeHandler.send
-        }
     }
 
     private void sendWeatherDataChange()

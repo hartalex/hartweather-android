@@ -50,7 +50,7 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
         Drawable iconResource = this.view.getContext().getResources().getDrawable(this.view.getContext().getResources().getIdentifier("icon" + weather.icon , "mipmap", this.view.getContext().getPackageName()));
         this.txtWeatherTemp.setCompoundDrawablesWithIntrinsicBounds(iconResource,null,null,null);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(weather.lastUpdate*1000);
+        calendar.setTimeInMillis(weather.lastUpdate);
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String lastUpdate ="Last Update: " + sdfDate.format(calendar.getTime());
         this.txtLastUpdate.setText(lastUpdate);
@@ -59,7 +59,12 @@ public class SearchItemViewHolder extends RecyclerView.ViewHolder  implements Vi
     @Override
     public void onClick(View v) {
         WeatherRecord weatherRecord = new WeatherRecord(this.weather);
-        this.model.addUpdate(weatherRecord);
+        boolean added = this.model.addUpdate(weatherRecord);
+        if (!added)
+        {
+            Toast toast = Toast.makeText(v.getContext(),"Location maximum exceeded.",Toast.LENGTH_SHORT);
+            toast.show();
+        }
         NavUtils.navigateUpFromSameTask(this.activity);
     }
 }
