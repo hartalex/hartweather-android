@@ -5,12 +5,11 @@ import android.os.*;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.*;
 import android.view.*;
+import android.widget.*;
 
 import com.hartcode.hartweather.*;
 import com.hartcode.hartweather.data.*;
-import com.hartcode.hartweather.network.INetworkView;
-import com.hartcode.hartweather.network.NetworkManager;
-import com.hartcode.hartweather.network.NetworkRequest;
+import com.hartcode.hartweather.network.*;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -57,14 +56,6 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        this.model.loadFromDB();
-        this.weatherListAdapter.notifyDataSetChanged();
-    }
-
-
-    @Override
     public void onRefresh() {
         for (int i = 0; i < this.model.weatherSize(); i++) {
             this.networkManager.addRequest(this.model.getItem(i));
@@ -76,6 +67,13 @@ public class WeatherListActivityFragment extends Fragment implements SwipeRefres
         if (isEmpty) {
             this.swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onNetworkError(String error)
+    {
+        Toast toast = Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     public boolean onBackPressed() {

@@ -42,10 +42,13 @@ public class SearchActivityFragment extends Fragment implements SwipeRefreshLayo
         this.recyclerView.setAdapter(searchListAdapter);
         this.swipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.swipe_refresh);
         this.swipeRefreshLayout.setOnRefreshListener(this);
-        this.swipeRefreshLayout.post( new Runnable() {
-            public void run() {
+        this.swipeRefreshLayout.post(new Runnable()
+        {
+            public void run()
+            {
                 swipeRefreshLayout.setRefreshing(true);
-            }});
+            }
+        });
 
         return v;
     }
@@ -63,4 +66,12 @@ public class SearchActivityFragment extends Fragment implements SwipeRefreshLayo
             this.networkManager.stopThreads();
         }
     }
+
+    @Override
+    public void onNetworkError(String error)
+    {
+        Toast toast = Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
 }

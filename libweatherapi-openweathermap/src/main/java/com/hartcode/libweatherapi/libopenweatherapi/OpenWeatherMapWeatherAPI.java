@@ -14,8 +14,8 @@ import java.util.List;
 import retrofit2.*;
 
 
-
-public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
+public class OpenWeatherMapWeatherAPI implements IWeatherAPI
+{
 
     private static final Logger logger = LoggerFactory.getLogger(OpenWeatherMapWeatherAPI.class);
     private static final String url = "http://api.openweathermap.org";
@@ -50,7 +50,7 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
 
     public void setUnits(Unit unit)
     {
-        switch(unit)
+        switch (unit)
         {
             case Celcius:
                 this.units = "metric";
@@ -63,88 +63,111 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI {
     }
 
     @Override
-    public Weather getWeatherByCity(int cityId) {
+    public Weather getWeatherByCity(int cityId) throws IOException
+    {
         Weather retval = null;
-        try {
+        try
+        {
             Call<OpenWeather> openWeatherCall =
-                weatherMapAPIService.getWeatherByCity(cityId, this.apiKey, this.units);
+                    weatherMapAPIService.getWeatherByCity(cityId, this.apiKey, this.units);
             OpenWeather ow = openWeatherCall.execute().body();
-            if (ow != null) {
-                if (ow.cod == 200) {
+            if (ow != null)
+            {
+                if (ow.cod == 200)
+                {
                     retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, ow.cod);
-                }else
+                } else
                 {
                     retval = new Weather(ow.cod);
                 }
             }
 
             logger.debug(ow.toString());
-        } catch (IOException e) {
-            logger.error("Error in getWeatherByCity.",e);
+        }
+        catch (IOException e)
+        {
+            throw new IOException("Network I/O error", e);
         }
         return retval;
     }
 
     @Override
-    public Weather getWeatherByLatLon(double lat, double lon) {
+    public Weather getWeatherByLatLon(double lat, double lon) throws IOException
+    {
         Weather retval = null;
-        try {
+        try
+        {
             Call<OpenWeather> openWeatherCall =
                     weatherMapAPIService.getWeatherByLatLon(lat, lon, this.apiKey, this.units);
             OpenWeather ow = openWeatherCall.execute().body();
-            if (ow != null) {
-                if (ow.cod == 200) {
+            if (ow != null)
+            {
+                if (ow.cod == 200)
+                {
                     retval = new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, ow.cod);
-                }else
+                } else
                 {
                     retval = new Weather(ow.cod);
                 }
             }
             logger.debug(ow.toString());
-        } catch (IOException e) {
-            logger.error("Error in getWeatherByZipCode.", e);
+        }
+        catch (IOException e)
+        {
+            throw new IOException("Network I/O error", e);
         }
         return retval;
     }
 
     @Override
-    public List<Weather> findCityByNameOrZip(String question) {
+    public List<Weather> findCityByNameOrZip(String question) throws IOException, IllegalArgumentException
+    {
         List<Weather> retval = null;
-        try {
-
-            // if question is a zipcode we need to add country code to the end.
-            // TODO(alex): there is probably a better way of doing this.
-            if (question != null && question.length() > 3 &&
-                    Character.isDigit(question.charAt(0)) &&
-                    Character.isDigit(question.charAt(1)) &&
-                    Character.isDigit(question.charAt(2)))
+        try
+        {
+            if (question != null && question.length() >= 3)
             {
-                question += countryCode;
-            }
-
-            Call<SearchData> openWeatherCall =
-                    weatherMapAPIService.findCityByNameOrZip(question, this.apiKey, this.units, "like");
-            SearchData search = openWeatherCall.execute().body();
-            logger.debug(search.toString());
-            if (search != null)
-            {
-                if (search.cod == 200) {
-                    retval = new ArrayList<>();
-                    for (int i = 0; i < search.list.size(); i++) {
-                        OpenWeather ow = search.list.get(i);
-                        if (ow != null) {
-                               retval.add(new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, 200));
-                        }
-                    }
-                }else
+                // if question is a zipcode we need to add country code to the end.
+                if (Character.isDigit(question.charAt(0)) &&
+                        Character.isDigit(question.charAt(1)) &&
+                        Character.isDigit(question.charAt(2)))
                 {
-                    retval.add(new Weather(search.cod));
+                    question += countryCode;
                 }
-                logger.debug(retval.toString());
-            }
 
-        } catch (IOException e) {
-            logger.error("Error in findCityByNameOrZip.", e);
+                Call<SearchData> openWeatherCall =
+                        weatherMapAPIService.findCityByNameOrZip(question, this.apiKey, this.units, "like");
+                SearchData search = openWeatherCall.execute().body();
+                logger.debug(search.toString());
+                if (search != null)
+                {
+                    retval = new ArrayList<>();
+                    if (search.cod == 200)
+                    {
+
+                        for (int i = 0; i < search.list.size(); i++)
+                        {
+                            OpenWeather ow = search.list.get(i);
+                            if (ow != null)
+                            {
+                                retval.add(new Weather(0, ow.id, ow.coord.lat, ow.coord.lon, ow.name, ow.weather.get(0).main, ow.weather.get(0).description, ow.weather.get(0).icon, ow.main.temp, ow.main.pressure, ow.main.humidity, ow.main.temp_min, ow.main.temp_max, ow.dt, 200));
+                            }
+                        }
+                    } else
+                    {
+                        Weather weather = new Weather(search.cod);
+                        retval.add(weather);
+                    }
+                    logger.debug(retval.toString());
+                }
+            }else
+            {
+                throw new IllegalArgumentException("Search string must be at least 3 characters long.");
+            }
+        }
+        catch (IOException e)
+        {
+            throw new IOException("Network I/O error", e);
         }
         return retval;
     }

@@ -169,6 +169,7 @@ public class Model {
         {
             this.addUpdate(weatherRecords.get(i), false);
         }
+        this.sendWeatherDataChange();
     }
 
     public void delete(int index)

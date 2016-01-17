@@ -1,5 +1,8 @@
 package com.hartcode.hartweather.network;
 
+import android.os.Bundle;
+import android.os.Message;
+
 import com.hartcode.hartweather.data.*;
 import com.hartcode.hartweather.libweatherapi.*;
 import com.hartcode.hartweather.network.threads.*;
@@ -14,7 +17,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  *
  */
-public class NetworkManager {
+public class NetworkManager implements INetworkView{
     private static final Logger logger = LoggerFactory.getLogger(NetworkManager.class);
     private final LinkedBlockingQueue<NetworkRequest> outgoingQueue;
     private final LinkedBlockingQueue<NetworkResponse> incomingQueue;
@@ -26,7 +29,7 @@ public class NetworkManager {
     private final IWeatherAPI weatherapi;
     private final IConnectivity connectivity;
     private final List<INetworkView> networkViews;
-    private final NetworkDataChangeHandler networkDataChangeHandler;
+    private final NetworkViewHandler networkDataChangeHandler;
 
     public NetworkManager(IWeatherAPI weatherapi, Model model, IConnectivity connectivity) {
 
@@ -36,10 +39,10 @@ public class NetworkManager {
         this.model = model;
         this.connectivity = connectivity;
         this.networkViews = new ArrayList<>();
-        this.networkDataChangeHandler = new NetworkDataChangeHandler(this.networkViews);
+        this.networkDataChangeHandler = new NetworkViewHandler(this.networkViews);
 
         this.networkRequestRunnable = new NetworkRequestRunnable(this.outgoingQueue, this.incomingQueue, this.weatherapi, this.connectivity, this);
-        this.networkResponseRunnable = new NetworkResponseRunnable(this.incomingQueue, this.model);
+        this.networkResponseRunnable = new NetworkResponseRunnable(this.incomingQueue, this.model, this);
 
         this.networkRequestThread = new Thread(this.networkRequestRunnable);
         this.networkRequestThread.start();
@@ -68,26 +71,14 @@ public class NetworkManager {
         if (!this.outgoingQueue.contains(networkParams)) {
             this.outgoingQueue.add(networkParams);
             // queue is full need to update view.
-            this.sendNetworkQueueChange(false);
+            this.onNetworkQueueChange(false);
         }
     }
 
     public void clear()
     {
         this.outgoingQueue.clear();
-        this.sendNetworkQueueChange(true);
-    }
-
-    public void sendNetworkQueueChange(boolean isEmpty)
-    {
-        if (this.networkDataChangeHandler != null) {
-            int what = 0;
-            if (isEmpty)
-            {
-                what = 1;
-            }
-            this.networkDataChangeHandler.sendEmptyMessage(what);
-        }
+        this.onNetworkQueueChange(true);
     }
 
     public void stopThreads()
@@ -114,4 +105,29 @@ public class NetworkManager {
         this.incomingQueue.clear();
     }
 
+    @Override
+    public void onNetworkQueueChange(boolean isEmpty)
+    {
+        if (this.networkDataChangeHandler != null) {
+            Message msg = new Message();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isEmpty",isEmpty);
+            msg.setData(bundle);
+            msg.what = 0;
+            this.networkDataChangeHandler.sendMessage(msg);
+        }
+    }
+
+    @Override
+    public void onNetworkError(String error)
+    {
+        if (this.networkDataChangeHandler != null) {
+            Message msg = new Message();
+            Bundle bundle = new Bundle();
+            bundle.putString("error",error);
+            msg.setData(bundle);
+            msg.what = 1;
+            this.networkDataChangeHandler.sendMessage(msg);
+        }
+    }
 }

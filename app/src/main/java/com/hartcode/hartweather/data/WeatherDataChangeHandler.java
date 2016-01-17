@@ -3,8 +3,6 @@ package com.hartcode.hartweather.data;
 import android.os.Handler;
 import android.os.Message;
 
-import com.hartcode.hartweather.list.IView;
-
 import java.util.List;
 
 /**

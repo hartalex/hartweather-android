@@ -1,5 +1,6 @@
 package com.hartcode.hartweather.libweatherapi;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -8,8 +9,8 @@ import java.util.List;
  * This way we can swap in and out other API's as necessary.
  */
 public interface IWeatherAPI {
-    Weather getWeatherByCity(int cityId);
-    Weather getWeatherByLatLon(double lat, double lon);
-    List<Weather> findCityByNameOrZip(String question);
+    Weather getWeatherByCity(int cityId) throws IOException;
+    Weather getWeatherByLatLon(double lat, double lon) throws IOException;
+    List<Weather> findCityByNameOrZip(String question) throws IOException, IllegalArgumentException;
     void setUnits(Unit unit);
 }

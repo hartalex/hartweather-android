@@ -1,7 +1,9 @@
 package com.hartcode.hartweather.network.threads;
 
 import com.hartcode.hartweather.libweatherapi.*;
+import com.hartcode.hartweather.network.ErrorNetworkResponse;
 import com.hartcode.hartweather.network.IConnectivity;
+import com.hartcode.hartweather.network.INetworkView;
 import com.hartcode.hartweather.network.NetworkManager;
 import com.hartcode.hartweather.network.NetworkRequest;
 import com.hartcode.hartweather.network.NetworkResponse;
@@ -21,15 +23,15 @@ public class NetworkRequestRunnable extends NetworkRunnable
     private final Queue<NetworkResponse> incomingQueue;
     private final IWeatherAPI weatherapi;
     private final IConnectivity connectivity;
-    private final NetworkManager networkManager;
+    private final INetworkView networkView;
 
-    public NetworkRequestRunnable(Queue<NetworkRequest> outgoingQueue, Queue<NetworkResponse> incomingQueue, IWeatherAPI weatherapi, IConnectivity connectivity, NetworkManager networkManager)
+    public NetworkRequestRunnable(Queue<NetworkRequest> outgoingQueue, Queue<NetworkResponse> incomingQueue, IWeatherAPI weatherapi, IConnectivity connectivity, INetworkView networkView)
     {
         this.outgoingQueue = outgoingQueue;
         this.incomingQueue = incomingQueue;
         this.weatherapi = weatherapi;
         this.connectivity = connectivity;
-        this.networkManager = networkManager;
+        this.networkView = networkView;
     }
 
     @Override
@@ -43,12 +45,19 @@ public class NetworkRequestRunnable extends NetworkRunnable
             {
                 Weather weather = null;
                 List<Weather> weatherList = null;
-                if (networkRequest.cityId != NetworkRequest.DEFAULT_CITY_ID)
+                try
                 {
-                    weather = this.weatherapi.getWeatherByCity(networkRequest.cityId);
-                } else
+                    if (networkRequest.cityId != NetworkRequest.DEFAULT_CITY_ID)
+                    {
+                        weather = this.weatherapi.getWeatherByCity(networkRequest.cityId);
+                    } else
+                    {
+                        weatherList = this.weatherapi.findCityByNameOrZip(networkRequest.cityName);
+                    }
+                }catch(Exception ex)
                 {
-                    weatherList = this.weatherapi.findCityByNameOrZip(networkRequest.cityName);
+                    this.incomingQueue.add(new ErrorNetworkResponse(networkRequest, ex));
+                    this.popFromQueue();
                 }
 
                 // After network intensive task, check if the thread is cancelled
@@ -62,9 +71,14 @@ public class NetworkRequestRunnable extends NetworkRunnable
                             this.incomingQueue.add(new NetworkResponse(networkRequest, weather));
 
                             this.popFromQueue();
-                        } else if (weatherList != null && weatherList.size() > 0 && weatherList.get(0).error == 200)
-                        {
-                            this.incomingQueue.add(new NetworkResponse(networkRequest, weatherList));
+                        } else if (weatherList != null) {
+                            if(weatherList.size() > 0 && weatherList.get(0).error == 200)
+                            {
+                                this.incomingQueue.add(new NetworkResponse(networkRequest, weatherList));
+                            } else
+                            {
+                                this.incomingQueue.add(new ErrorNetworkResponse(networkRequest,new Exception("Nothing Found")));
+                            }
 
                             this.popFromQueue();
                         } else
@@ -85,7 +99,7 @@ public class NetworkRequestRunnable extends NetworkRunnable
             } else
             {
                 // Tell the view that the queue is empty
-                this.networkManager.sendNetworkQueueChange(true);
+                this.networkView.onNetworkQueueChange(true);
                 // Network is connected, but queue is empty
                 backoffTime = DEFAULT_BACK_OFF_TIME;
             }
