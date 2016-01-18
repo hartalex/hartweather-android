@@ -42,7 +42,7 @@
     <!-- Weather Images -->
     <string name="weather_image_description">Icon showing current weather.</string>
     <string name="weather_image_prefix">icon</string>
-    <string name="weather_image_resource_type">mipmap</string>
+    <string name="weather_image_resource_type">drawable</string>
 
     <!-- Data Format Strings -->
     <string name="temp_format">%1$d%2$c</string>

@@ -32,7 +32,7 @@
             android:layout_below="@id/txtCityName"
             android:contentDescription="@string/weather_image_description"
             android:gravity="center_vertical"
-            android:src="@mipmap/icon01n"/>
+            android:src="@drawable/icon01d"/>
 
         <TextView
             android:id="@+id/txtWeatherName"

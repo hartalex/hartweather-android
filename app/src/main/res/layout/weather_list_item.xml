@@ -24,7 +24,7 @@
             android:layout_toLeftOf="@id/txtWeatherTemp"
             android:layout_toStartOf="@id/txtWeatherTemp"
             android:text="@string/default_city"
-            android:padding="10sp"
+            android:padding="10dp"
             android:textSize="30sp" />
 
         <TextView
@@ -35,14 +35,12 @@
             android:gravity="center_vertical|end"
             android:text="@string/default_temp"
             android:textSize="40sp"
-            android:paddingEnd="10sp"
-            android:paddingRight="10sp"
-            android:paddingStart="10sp"
-            android:paddingLeft="10sp"
+            android:padding="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:drawableLeft="@mipmap/icon01d"
-            android:drawableStart="@mipmap/icon01d"/>
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/icon01d"
+            android:drawableStart="@drawable/icon01d"/>
 
         <TextView
             android:id="@+id/txtLastUpdate"

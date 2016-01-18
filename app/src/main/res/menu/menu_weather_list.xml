@@ -6,7 +6,7 @@
         android:id="@+id/action_add"
         android:orderInCategory="200"
         android:title="@string/menu_add"
-        android:icon="@mipmap/fab_add"
+        android:icon="@drawable/fab_add"
         app:showAsAction="collapseActionView|never"
         app:actionViewClass="android.support.v7.widget.SearchView" />
     <item

@@ -172,7 +172,7 @@ public class WeatherListActivity extends AppCompatActivity implements View.OnCli
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
-            this.floatingActionButton.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.fab_add));
+            this.floatingActionButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.fab_add));
         }
         return true;
     }
