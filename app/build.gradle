@@ -13,6 +13,9 @@ android {
     }
 
     buildTypes {
+        all {
+            resValue  "string", "openweathermap_apikey", "$System.env.OPENWEATHERMAP_APIKEY"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

@@ -60,9 +60,4 @@
     <!-- Network Handler -->
     <string name="network_is_empty_key">isEmpty</string>
     <string name="network_error_key">error</string>
-
-    <!-- It is very bad to store this here, however since the api doesn't use TLS it is trivial to
-         for bad guys to find this anyway. -->
-    <string name="openweathermap_apikey">34b3e14b5a4abd6edcc4c2e4051a6cab</string>
-
 </resources>
