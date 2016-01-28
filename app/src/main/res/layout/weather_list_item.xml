@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 *
 *    HartWeather - A Simple Weather Android App
@@ -18,7 +19,6 @@
 *    <https://github.com/hartcode/hartweather-android/blob/master/LICENSE>.
 *
 * -->
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                                     android:id="@+id/weather_list_item"
