@@ -99,9 +99,9 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI
                 {
                     retval = new Weather(ow.cod);
                 }
+                logger.debug(ow.toString());
             }
 
-            logger.debug(ow.toString());
         }
         catch (IOException e)
         {
@@ -128,8 +128,8 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI
                 {
                     retval = new Weather(ow.cod);
                 }
+                logger.debug(ow.toString());
             }
-            logger.debug(ow.toString());
         }
         catch (IOException e)
         {
@@ -157,9 +157,9 @@ public class OpenWeatherMapWeatherAPI implements IWeatherAPI
                 Call<SearchData> openWeatherCall =
                         weatherMapAPIService.findCityByNameOrZip(question, this.apiKey, this.units, "like");
                 SearchData search = openWeatherCall.execute().body();
-                logger.debug(search.toString());
                 if (search != null)
                 {
+                    logger.debug(search.toString());
                     retval = new ArrayList<>();
                     if (search.cod == 200)
                     {

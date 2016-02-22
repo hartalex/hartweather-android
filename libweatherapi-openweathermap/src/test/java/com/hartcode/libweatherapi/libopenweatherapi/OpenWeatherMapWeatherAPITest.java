@@ -23,57 +23,77 @@ package com.hartcode.libweatherapi.libopenweatherapi;
 
 import com.hartcode.hartweather.libweatherapi.*;
 
-import junit.framework.*;
-
+import org.junit.*;
+import org.junit.Test;
 import org.slf4j.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import static org.junit.Assert.*;
 
-public class OpenWeatherMapWeatherAPITest extends TestCase {
+
+public class OpenWeatherMapWeatherAPITest {
     private static final Logger logger = LoggerFactory.getLogger(OpenWeatherMapWeatherAPITest.class);
     private final static int CAIRNS_CITY_ID = 2172797;
 
     // Normally the api key would be pulled from a private server and not hardcoded.
     // However since the api doesn't support ssl it is trivial to scrape the key from http logs.
-	// TODO:  Need to pull from this environment variable instead.
-    private final static String API_KEY = "2de143494c0b295cca9337e1e96b00e0";
+    private final static String API_KEY = System.getenv("openweathermap_apikey");
     private IWeatherAPI api;
 
-    @Override
-    protected void setUp()
+    @Before
+    public void before()
     {
         api = new OpenWeatherMapWeatherAPI(API_KEY,Unit.Fahrenheit, Locale.getDefault().getCountry());
     }
 
+    @Test
     public void testGetWeatherByCity() {
-       Weather weather = api.getWeatherByCity(CAIRNS_CITY_ID);
-        logger.debug(weather.toString());
+        Weather weather = null;
+        try {
+            weather = api.getWeatherByCity(CAIRNS_CITY_ID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertNotNull(weather);
+        logger.debug(weather.toString());
         assertTrue("Weather.temp > -20", weather.temp > -20);
     }
 
+    @Test
     public void testGetWeatherByLatLon() {
-        Weather weather =  api.getWeatherByLatLon(43.3f, -87.99f);
-        logger.debug(weather.toString());
+        Weather weather = null;
+        try {
+            weather = api.getWeatherByLatLon(43.3f, -87.99f);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertNotNull(weather);
+        logger.debug(weather.toString());
         assertTrue("Weather.temp > -20", weather.temp > -20);
     }
 
-    public void testfindCityByNameOrZip() {
-        List<Weather> weather = api.findCityByNameOrZip("53012");
-
-        logger.debug(weather.toString());
+    @Test
+    public void testFindCityByNameOrZip() {
+        List<Weather> weather = null;
+        try {
+            weather = api.findCityByNameOrZip("53012");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertNotNull(weather);
+        logger.debug(weather.toString());
     }
 
+    @Test
     public void testWeatherApiFail1sstParam()
     {
         boolean caught = false;
         try
         {
-            new OpenWeatherMapWeatherAPI(null,Unit.Celcius, Locale.getDefault().getCountry());
+            new OpenWeatherMapWeatherAPI(null,Unit.Celsius, Locale.getDefault().getCountry());
         }catch(IllegalArgumentException iae)
         {
             caught = true;
@@ -81,6 +101,7 @@ public class OpenWeatherMapWeatherAPITest extends TestCase {
         assertTrue("Expected Invalid Argument Exception", caught);
     }
 
+    @Test
     public void testWeatherApiFail2ndParam()
     {
         boolean caught = false;
