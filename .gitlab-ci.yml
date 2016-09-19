@@ -19,4 +19,5 @@ sync_github:
    - echo "    IdentityFile /root/.ssh/github" >> /root/.ssh/config
    - echo "    StrictHostKeyChecking no" >> /root/.ssh/config
    - git remote add github git@github.com:hartcode/hartweather-android.git
-   - git push --mirror github
+   - git fetch --prune
+   - git git push --prune github +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/* 
