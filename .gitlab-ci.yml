@@ -7,6 +7,7 @@ stages:
 sync_github:
   stage: sync
   image: docker:1.12.1-git
+  script:
    - mkdir /root/.ssh
    - echo $GITHUB_SYNC_PUBLIC_KEY > /root/.ssh/github.pub
    - chmod 644 /root/.ssh/github.pub
