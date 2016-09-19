@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+  - deploy
+  - sync
+
+sync_github:
+  stage: sync
+  image: docker:1.12.1-git
+   - mkdir /root/.ssh
+   - echo $GITHUB_SYNC_PUBLIC_KEY > /root/.ssh/github.pub
+   - chmod 644 /root/.ssh/github.pub
+   - echo "-----BEGIN OPENSSH PRIVATE KEY-----" > /root/.ssh/github
+   - echo $GITHUB_SYNC_PRIVATE_KEY >> /root/.ssh/github
+   - echo "-----END OPENSSH PRIVATE KEY-----" >> /root/.ssh/github
+   - chmod 400 /root/.ssh/github
+   - echo "Host github.com" > /root/.ssh/config
+   - echo "    IdentityFile /root/.ssh/github" >> /root/.ssh/config
+   - echo "    StrictHostKeyChecking no" >> /root/.ssh/config
+   - git remote add github git@github.com:hartcode/hartweather-android.git
+   - git push --mirror github
