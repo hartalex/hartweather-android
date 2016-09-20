@@ -19,4 +19,4 @@ sync_github:
    - echo "    IdentityFile /root/.ssh/github" >> /root/.ssh/config
    - echo "    StrictHostKeyChecking no" >> /root/.ssh/config
    - git fetch --prune
-   - git push --prune git@github.com:hartcode/hartweather-android.git +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/* 
+   - git push --prune git@github.com:hartalex/hartweather-android.git +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/* 
