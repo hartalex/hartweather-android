@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hartalex/hartweather-android.svg?branch=master)](https://travis-ci.org/hartalex/hartweather-android)
+
 # HartWeather
 An example weather app for android.		
 
