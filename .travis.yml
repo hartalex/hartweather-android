@@ -3,7 +3,7 @@ sudo: required
 dist: precise
 android:
   components:
-- platform-tools
+    - platform-tools
     - tools
     - build-tools-23.0.2
     - android-23
